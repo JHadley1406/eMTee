@@ -1,2 +1,2 @@
-# Capstone
-Udacity Android Nanodegree Capstone Project
+# eMTee
+A fuel mileage/price tracker
