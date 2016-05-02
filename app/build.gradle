@@ -13,7 +13,7 @@ android {
         versionName "1.0"
     }
 
-    signingConfigs {
+    /*signingConfigs {
         debug {
             storeFile file("DEBUG_KEYSTORE")
         }
@@ -23,13 +23,17 @@ android {
             storePassword '1q2w3e4r'
             keyPassword '1q2w3e4r'
         }
-    }
+    }*/
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
     productFlavors {

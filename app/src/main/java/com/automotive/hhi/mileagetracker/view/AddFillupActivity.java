@@ -3,6 +3,7 @@ package com.automotive.hhi.mileagetracker.view;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
@@ -83,7 +84,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     }
 
     @OnClick(R.id.add_fillup_submit)
-    public void onButtonPressed() {
+    public void onSubmitButtonPressed() {
         mAddFillupPresenter.checkStation();
         if(mAddFillupPresenter.validateInput(mInputContainer)){
             setResult(RESULT_OK, new Intent());
@@ -104,7 +105,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     }
 
     @OnTextChanged(R.id.add_fillup_price)
-    public void onTextChanged(CharSequence s, int start, int before, int count){
+    public void onPriceTextChanged(CharSequence s, int start, int before, int count){
         DecimalFormat decimal = new DecimalFormat("0.00");
         if(!s.toString().matches("^\\$(\\d+)(\\.\\d{2})?$")){
             String userInput = ""+s.toString().replaceAll("[^\\d]", "");
@@ -114,6 +115,32 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
                 mFuelPrice.setText("$"+decimal.format(percent));
                 mFuelPrice.setSelection(mFuelPrice.getText().length());
             }
+        }
+    }
+
+    @OnTextChanged(R.id.add_fillup_current_mileage)
+    public void onMileageTextChanged(CharSequence s, int start, int before, int count){
+        if(!s.toString().matches("^\\d+\\.\\d+?$")
+                && !s.toString().matches("^\\d+\\.?$")
+                && !s.toString().matches("^\\d+\\.\\d+?&")
+                && !s.toString().equals("")){
+            mMileage.setError(getString(R.string.number_field_error));
+            mAddFillup.setClickable(false);
+        } else{
+            mMileage.setClickable(true);
+        }
+    }
+
+    @OnTextChanged(R.id.add_fillup_fuel_amount)
+    public void onGallonsTextChanged(CharSequence s, int start, int before, int count){
+        if(!s.toString().matches("^\\d+\\.\\d+?$")
+                && !s.toString().matches("^\\d+\\.?$")
+                && !s.toString().matches("^\\d+\\.\\d+?&")
+                && !s.toString().equals("")){
+            mFuelAmount.setError(getString(R.string.number_field_error));
+            mAddFillup.setClickable(false);
+        } else{
+            mAddFillup.setClickable(true);
         }
     }
 

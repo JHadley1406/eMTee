@@ -85,7 +85,6 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
             mYear.setText(userInput);
             mYear.setSelection(mYear.getText().length());
         }
-
     }
 
 
