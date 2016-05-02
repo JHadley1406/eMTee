@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".CarDetailActivity">
+    <item android:id="@+id/car_detail_menu_car_list" android:title="@string/title_activity_car_list"
+        android:orderInCategory="10" app:showAsAction="never" />
+</menu>

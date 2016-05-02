@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/activity_horizontal_margin"
+    android:paddingEnd="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_car_list"
+    tools:context="com.automotive.hhi.mileagetracker.view.CarListActivity">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/car_list_rv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:nextFocusRight="@id/car_list_fab"/>
+</RelativeLayout>
