@@ -70,7 +70,7 @@ public class DataContract {
                 + MPG + " REAL NOT NULL, "
                 + STATION + " INTEGER NULL, "
                 + GALLONS + " REAL NOT NULL, "
-                + OCTANE + " INTEGER NOT NULL, "
+                + OCTANE + " TEXT NOT NULL, "
                 + COST + " REAL NOT NULL, "
                 + DATE + " INTEGER NOT NULL, "
                 + " FOREIGN KEY (" + CAR + ") REFERENCES "

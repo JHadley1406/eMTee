@@ -10,6 +10,8 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
@@ -113,6 +115,14 @@ public class SelectStationPresenter implements Presenter<SelectStationView>
         addressSearchIntent.putExtra(KeyContract.DISTANCE, 10);
         addressSearchIntent.putExtra(KeyContract.FUELTYPE, getFuelType());
         return addressSearchIntent;
+    }
+
+    public boolean isOnline()
+    {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void loadNearbyStations(){

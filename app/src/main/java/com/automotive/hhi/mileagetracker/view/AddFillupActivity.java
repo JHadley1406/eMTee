@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
@@ -27,6 +32,7 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import butterknife.OnTextChanged;
 
 
@@ -48,7 +54,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     @Bind(R.id.add_fillup_price)
     public EditText mFuelPrice;
     @Bind(R.id.add_fillup_octane)
-    public EditText mOctane;
+    public Spinner mOctane;
     @Bind(R.id.add_fillup_current_mileage)
     public EditText mMileage;
     @Bind(R.id.add_fillup_submit)
@@ -58,6 +64,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     @Bind(R.id.add_fillup_station_container)
     public LinearLayout mStationContainer;
     private AddFillupPresenter mAddFillupPresenter;
+    private ArrayAdapter<CharSequence> mOctaneAdapter;
 
 
     @Override
@@ -72,6 +79,10 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
                         , getContext());
         setContentView(R.layout.activity_add_fillup);
         ButterKnife.bind(this);
+        mOctaneAdapter = ArrayAdapter.createFromResource(getContext()
+                , R.array.octane_array
+                , R.layout.octane_spinner_item);
+        mOctane.setAdapter(mOctaneAdapter);
         mAddFillupPresenter.attachView(this);
         if(mAddFillupPresenter.getIsEdit()){
             mAddFillup.setText(getResources().getString(R.string.add_fillup_edit_button));
@@ -87,7 +98,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     public void onSubmitButtonPressed() {
         mAddFillupPresenter.checkStation();
         if(mAddFillupPresenter.validateInput(mInputContainer)){
-            setResult(RESULT_OK, new Intent());
+            setResult(RESULT_OK, mAddFillupPresenter.getReturnIntent());
             finish();
         }
     }
@@ -127,7 +138,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
             mMileage.setError(getString(R.string.number_field_error));
             mAddFillup.setClickable(false);
         } else{
-            mMileage.setClickable(true);
+            mAddFillup.setClickable(true);
         }
     }
 
@@ -141,6 +152,28 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
             mAddFillup.setClickable(false);
         } else{
             mAddFillup.setClickable(true);
+        }
+    }
+
+    @OnItemSelected(R.id.add_fillup_octane)
+    public void onOctaneItemSelected(AdapterView<?> parent, View view, int pos, long id){
+        switch (pos){
+            case 0:{
+                mAddFillupPresenter.getFillup().setOctane("reg");
+                break;
+            }
+            case 1:{
+                mAddFillupPresenter.getFillup().setOctane("mid");
+                break;
+            }
+            case 2:{
+                mAddFillupPresenter.getFillup().setOctane("pre");
+                break;
+            }
+            case 3:{
+                mAddFillupPresenter.getFillup().setOctane("diesel");
+                break;
+            }
         }
     }
 
@@ -169,8 +202,8 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
         if(mAddFillupPresenter.getFillup().getFuelCost() != 0) {
             mFuelPrice.setText(String.format("%.2f", mAddFillupPresenter.getFillup().getFuelCost()));
         }
-        if(mAddFillupPresenter.getFillup().getOctane() != 0) {
-            mOctane.setText(String.format("%d", mAddFillupPresenter.getFillup().getOctane()));
+        if(!mAddFillupPresenter.getFillup().getReadableOctane().equals("No Octane Selected")) {
+            mOctane.setSelection(mOctaneAdapter.getPosition(mAddFillupPresenter.getFillup().getReadableOctane()));
         }
         if(mAddFillupPresenter.getFillup().getFillupMileage() != 9) {
             mMileage.setText(String.format("%.1f", mAddFillupPresenter.getFillup().getFillupMileage()));
@@ -183,10 +216,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
             mAddFillupPresenter.getFillup().setGallons(Double.parseDouble(mFuelAmount.getText().toString()));
         }
         if(!mFuelPrice.getText().toString().equals("")) {
-            mAddFillupPresenter.getFillup().setFuelCost(Double.parseDouble(mFuelPrice.getText().toString()));
-        }
-        if(!mOctane.getText().toString().equals("")) {
-            mAddFillupPresenter.getFillup().setOctane(Integer.valueOf(mOctane.getText().toString()));
+            mAddFillupPresenter.getFillup().setFuelCost(Double.parseDouble(mFuelPrice.getText().toString().substring(1)));
         }
         if(!mMileage.getText().toString().equals("")) {
             mAddFillupPresenter.getFillup().setFillupMileage(Double.parseDouble(mMileage.getText().toString()));

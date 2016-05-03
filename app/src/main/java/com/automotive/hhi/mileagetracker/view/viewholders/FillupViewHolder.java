@@ -41,7 +41,7 @@ public class FillupViewHolder extends RecyclerView.ViewHolder {
         mGallons.setText(String.format("%.2f", fillup.getGallons()));
         mFuelCost.setText(String.format("%.2f", fillup.getFuelCost()));
         mTotalCost.setText(String.format("%.2f", fillup.getTotalCost()));
-        mOctane.setText(String.format("%d", fillup.getOctane()));
+        mOctane.setText(fillup.getReadableOctane());
         mFillupMpg.setText(String.format("%.1f", fillup.getFillupMpg()));
         mDate.setText(fillup.getReadableDate());
 

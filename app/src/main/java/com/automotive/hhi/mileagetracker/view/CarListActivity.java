@@ -19,6 +19,8 @@ import com.automotive.hhi.mileagetracker.adapters.CarAdapter;
 import com.automotive.hhi.mileagetracker.model.data.Car;
 import com.automotive.hhi.mileagetracker.presenter.CarListPresenter;
 import com.automotive.hhi.mileagetracker.view.interfaces.CarListView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +29,8 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
 
     private final String LOG_TAG = CarListActivity.class.getSimpleName();
 
+    @Bind(R.id.car_list_ad_view)
+    public AdView mAdView;
     @Bind(R.id.car_list_fab)
     public FloatingActionButton mFab;
     @Bind(R.id.car_list_rv)
@@ -45,6 +49,9 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
         setSupportActionBar(mToolbar);
 
         preparePresenter();
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         mCarRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         mFab.setOnClickListener(new View.OnClickListener() {

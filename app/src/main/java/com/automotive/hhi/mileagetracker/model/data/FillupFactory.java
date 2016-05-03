@@ -39,7 +39,7 @@ public class FillupFactory {
                 .getDouble(cursor
                         .getColumnIndexOrThrow(DataContract.FillupTable.GALLONS)));
         fillup.setOctane(cursor
-                .getInt(cursor
+                .getString(cursor
                         .getColumnIndexOrThrow(DataContract.FillupTable.OCTANE)));
         return fillup;
     }

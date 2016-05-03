@@ -18,7 +18,7 @@ public class Fillup implements Parcelable {
     private double fillupMpg;
     private double gallons;
     private double fuelCost;
-    private int octane;
+    private String octane;
     private long date;
 
     public Fillup(){}
@@ -31,7 +31,7 @@ public class Fillup implements Parcelable {
         setFillupMpg(in.readDouble());
         setGallons(in.readDouble());
         setFuelCost(in.readDouble());
-        setOctane(in.readInt());
+        setOctane(in.readString());
         setDate(in.readLong());
     }
 
@@ -95,11 +95,11 @@ public class Fillup implements Parcelable {
         this.fuelCost = fuelCost;
     }
 
-    public int getOctane() {
+    public String getOctane() {
         return octane;
     }
 
-    public void setOctane(int octane) {
+    public void setOctane(String octane) {
         this.octane = octane;
     }
 
@@ -110,6 +110,19 @@ public class Fillup implements Parcelable {
     public String getReadableDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         return sdf.format(new Date(getDate()));
+    }
+
+    public String getReadableOctane(){
+        if(getOctane().equals("reg")){
+            return "Regular";
+        } else if(getOctane().equals("mid")){
+            return "Mid-Grade";
+        } else if(getOctane().equals("pre")){
+            return "Premium";
+        } else if (getOctane().equals("diesel")) {
+            return "Diesel";
+        }
+        return "No Octane Selected";
     }
 
     public void setDate(long date) {
@@ -130,7 +143,7 @@ public class Fillup implements Parcelable {
         dest.writeDouble(getFillupMpg());
         dest.writeDouble(getGallons());
         dest.writeDouble(getFuelCost());
-        dest.writeInt(getOctane());
+        dest.writeString(getOctane());
         dest.writeLong(getDate());
     }
 

@@ -17,12 +17,16 @@ import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.adapters.StationAdapter;
 import com.automotive.hhi.mileagetracker.presenter.StationListPresenter;
 import com.automotive.hhi.mileagetracker.view.interfaces.StationListView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class StationListActivity extends AppCompatActivity implements StationListView {
 
+    @Bind(R.id.station_list_ad_view)
+    public AdView mAdView;
     @Bind(R.id.station_list_rv)
     public RecyclerView mStationRecyclerView;
     @Bind(R.id.station_list_toolbar)
@@ -41,6 +45,8 @@ public class StationListActivity extends AppCompatActivity implements StationLis
         mStationRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         preparePresenter();
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
     }
 

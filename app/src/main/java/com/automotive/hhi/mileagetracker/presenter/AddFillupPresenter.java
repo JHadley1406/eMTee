@@ -80,6 +80,12 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
 
     public boolean getIsEdit(){ return mIsEdit; }
 
+    public Intent getReturnIntent(){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(KeyContract.CAR, mCar);
+        return returnIntent;
+    }
+
     public void launchAddStation(){
         Intent addStationIntent = new Intent(mAddFillupView.getContext(), SelectStationActivity.class);
 
@@ -137,8 +143,8 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             mFillup.setDate(System.currentTimeMillis());
         }
         calculateFillupMpg();
-        calculateAvgMpg();
         insertFillup();
+        calculateAvgMpg();
         return true;
     }
 
@@ -175,7 +181,7 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
     }
 
     private void calculateAvgMpg(){
-        int fillupCount = -1;
+        int fillupCount;
         double mpgTotal = 0;
         Cursor allFillups = mContext.getContentResolver()
                 .query(DataContract.FillupTable.CONTENT_URI
@@ -183,24 +189,22 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
                         , DataContract.FillupTable.CAR + " = " + mCar.getId()
 
                         , null, "date ASC");
-        // fillup MPG is calculated by subtracting the previous fillup's mileage
-        // from the current fillup's mileage, then dividing by
-        // the gallons of fuel in this fillup
         if(allFillups != null && allFillups.moveToFirst()) {
-            fillupCount += allFillups.getCount();
+            fillupCount = allFillups.getCount()-1;
 
             while (allFillups.moveToNext()) {
                 mpgTotal += allFillups.getInt(allFillups.getColumnIndexOrThrow(DataContract.FillupTable.MPG));
             }
 
+            mCar.setAvgMpg(mpgTotal / fillupCount);
 
             allFillups.close();
         } else {
             mFillup.setFillupMpg(0.0);
-            mpgTotal = mFillup.getFillupMpg();
+            mCar.setAvgMpg(mFillup.getFillupMpg());
         }
-        mCar.setAvgMpg(mpgTotal / fillupCount);
         mContext.getContentResolver().update(DataContract.CarTable.CONTENT_URI, CarFactory.toContentValues(mCar), DataContract.CarTable._ID + " = " + mCar.getId(), null);
+
     }
 
     public DatePickerFragment buildDatePickerFragment(){

@@ -48,6 +48,11 @@ public class LocBasedStationAdapter extends RecyclerView.Adapter<StationViewHold
         return mStations.size();
     }
 
+    public void clearStations(){
+        mStations.clear();
+        notifyDataSetChanged();
+    }
+
     public void updateStations(List<Station> stations){
         mStations = stations;
         notifyDataSetChanged();

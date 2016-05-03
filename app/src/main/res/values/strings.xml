@@ -28,6 +28,12 @@
     <string name="add_fillup_octane_hint">Octane Rating</string>
     <string name="add_fillup_add_button">Submit</string>
     <string name="add_fillup_edit_button">Submit</string>
+    <string-array name="octane_array">
+        <item>Regular</item>
+        <item>Mid-Grade</item>
+        <item>Premium</item>
+        <item>Diesel</item>
+    </string-array>
 
     <string name="edit_text_error">Please Enter</string>
     <string name="car_detail_add_fillup_button">Add Fill-up</string>
@@ -68,6 +74,8 @@
     <string name="activity_car_detail_chart_content_desc">Miles Per Gallon Over Time</string>
     <string name="add_car_bad_year_error">Incorrect Year</string>
     <string name="number_field_error">Numbers Only</string>
+    <string name="no_internet_error">No Internet Connection Detected\nSearch Capabilities Are Unavailable</string>
+    <string name="add_fillup_dollar_sign">$</string>
 
 
 </resources>

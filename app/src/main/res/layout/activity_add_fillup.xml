@@ -94,19 +94,21 @@
                     android:nextFocusUp="@id/add_fillup_fuel_amount"
                     android:nextFocusDown="@+id/add_fillup_octane"/>
             </android.support.design.widget.TextInputLayout>
-            <android.support.design.widget.TextInputLayout
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-                <EditText
-                    android:id="@+id/add_fillup_octane"
-                    android:hint="@string/add_fillup_octane_hint"
-                    android:inputType="number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:nextFocusUp="@id/add_fillup_price"
-                    android:nextFocusDown="@+id/add_fillup_current_mileage"/>
-            </android.support.design.widget.TextInputLayout>
+                android:text="@string/add_fillup_octane_hint"
+                android:textColor="@color/colorAccent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textSize="12sp"/>
+            <Spinner
+                android:id="@+id/add_fillup_octane"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textAlignment="center"
+                android:nextFocusUp="@id/add_fillup_price"
+                android:nextFocusDown="@+id/add_fillup_current_mileage"/>
             <android.support.design.widget.TextInputLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent">

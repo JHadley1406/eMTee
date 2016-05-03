@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.adapters.LocBasedStationAdapter;
@@ -65,14 +66,20 @@ public class SelectStationActivity extends AppCompatActivity implements SelectSt
         mNearbyStationRV.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         preparePresenter();
         checkPermission();
+
     }
 
     @OnClick(R.id.select_station_address_find_button)
     public void addressSearch(){
-        getContext()
-                .startService(mSelectStationPresenter
-                        .findStationsFromAddress(mAddressSearch.getText().toString()));
-        mNearbyLabel.setText(R.string.select_station_search_station_text);
+        if(!mSelectStationPresenter.isOnline()){
+            Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_LONG).show();
+        } else{
+            ((LocBasedStationAdapter)mNearbyStationRV.getAdapter()).clearStations();
+            getContext()
+                    .startService(mSelectStationPresenter
+                            .findStationsFromAddress(mAddressSearch.getText().toString()));
+            mNearbyLabel.setText(R.string.select_station_search_station_text);
+        }
     }
 
     @Override
@@ -141,7 +148,6 @@ public class SelectStationActivity extends AppCompatActivity implements SelectSt
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Log.i(LOG_TAG, "Launching location service from checkPermission");
             launchService(new Intent(getContext(), LocationService.class));
 
         }
