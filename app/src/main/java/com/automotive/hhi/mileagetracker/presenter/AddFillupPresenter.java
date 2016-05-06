@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -48,9 +49,21 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             , Context context){
         mContext = context;
         mIsEdit = isEdit;
-        mStation = station;
+        mStation = station;     //Do we need to pass this?
         mCar = car;
         mFillup = fillup;
+        if(isEdit){
+            if(fillup.getStationId() > 0){
+                Cursor editStation = mContext.getContentResolver()
+                        .query(DataContract.StationTable.CONTENT_URI, null
+                        , DataContract.StationTable._ID + " = "
+                        + mFillup.getStationId()
+                        , null, null);
+                if(editStation.moveToFirst()) {
+                    mStation = StationFactory.fromCursor(editStation);
+                }
+            }
+        }
 
     }
 
@@ -137,8 +150,10 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             }
         }
         mAddFillupView.buildFillup();
-        if(!mIsEdit){
+        if(mStation.getId() != 0 && mStation.getId() != mFillup.getStationId()){
             mFillup.setStationId(mStation.getId());
+        }
+        if(!mIsEdit){
             mFillup.setCarId(mCar.getId());
             mFillup.setDate(System.currentTimeMillis());
         }

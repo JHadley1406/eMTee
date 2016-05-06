@@ -86,6 +86,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
         mAddFillupPresenter.attachView(this);
         if(mAddFillupPresenter.getIsEdit()){
             mAddFillup.setText(getResources().getString(R.string.add_fillup_edit_button));
+
         } else{
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             mDate.setText(sdf.format(new Date()));
@@ -196,6 +197,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     @Override
     public void setFields() {
         mDate.setText(mAddFillupPresenter.getFillup().getReadableDate());
+        setStationText();
         if(mAddFillupPresenter.getFillup().getGallons() != 0){
             mFuelAmount.setText(String.format("%.2f", mAddFillupPresenter.getFillup().getGallons()));
         }
