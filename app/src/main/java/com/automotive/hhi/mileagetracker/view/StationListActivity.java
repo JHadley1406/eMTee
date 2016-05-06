@@ -80,7 +80,7 @@ public class StationListActivity extends AppCompatActivity implements StationLis
     }
 
     public void preparePresenter(){
-        mStationListPresenter = new StationListPresenter();
+        mStationListPresenter = new StationListPresenter(getApplicationContext(), getLoaderManager());
         mStationListPresenter.attachView(this);
         mStationListPresenter.loadStations();
 

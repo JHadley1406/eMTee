@@ -30,7 +30,8 @@ public class CarListPresenter implements Presenter<CarListView>, ViewHolderOnCli
     private CarAdapter mCarListAdapter;
     private LoaderManager mLoaderManager;
 
-    public CarListPresenter(Context context, LoaderManager loaderManager){
+    public CarListPresenter(Context context
+            , LoaderManager loaderManager){
         mContext = context;
         mLoaderManager = loaderManager;
         mCarListAdapter = new CarAdapter(mContext, null, this);

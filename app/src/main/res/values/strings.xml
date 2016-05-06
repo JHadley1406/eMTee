@@ -76,6 +76,7 @@
     <string name="number_field_error">Numbers Only</string>
     <string name="no_internet_error">No Internet Connection Detected\nSearch Capabilities Are Unavailable</string>
     <string name="add_fillup_dollar_sign">$</string>
+    <string name="menu_car_detail_station_list">Station List</string>
 
 
 </resources>

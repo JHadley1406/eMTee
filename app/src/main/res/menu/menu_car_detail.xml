@@ -3,4 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".CarDetailActivity">
     <item android:id="@+id/car_detail_menu_car_list" android:title="@string/title_activity_car_list"
         android:orderInCategory="10" app:showAsAction="never" />
+    <item android:id="@+id/car_detail_menu_station_list"
+        android:title="@string/menu_car_detail_station_list"
+        android:orderInCategory="20" app:showAsAction="never"/>
 </menu>

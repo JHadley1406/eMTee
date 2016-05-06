@@ -148,6 +148,9 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
                 NavUtils.navigateUpTo(this, mCarDetailPresenter.returnToCarListIntent());
                 return true;
             }
+            case R.id.car_detail_menu_station_list:{
+                startActivity(new Intent(getContext(), StationListActivity.class));
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
