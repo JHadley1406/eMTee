@@ -10,14 +10,5 @@ import com.automotive.hhi.mileagetracker.adapters.StationAdapter;
  */
 public interface SelectStationView extends MvpView {
 
-    void showNearby(LocBasedStationAdapter stations);
-
-    void showUsed(StationAdapter stations);
-
-    void returnStation(Intent intent);
-
     void launchGPSAlert();
-
-    void launchService(Intent intent);
-
 }

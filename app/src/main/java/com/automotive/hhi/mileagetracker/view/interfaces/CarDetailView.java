@@ -16,6 +16,8 @@ public interface CarDetailView extends MvpView {
 
     void launchActivity(Intent intent, int code);
 
+    void launchCarList();
+
     void close();
     
 }

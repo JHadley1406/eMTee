@@ -1,6 +1,7 @@
 package com.automotive.hhi.mileagetracker.view;
 
 import android.app.AlertDialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -108,6 +109,11 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
                 }
                 break;
             }
+            case KeyContract.CREATE_CAR_CODE:{
+                if(resultCode == RESULT_OK){
+                    mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
+                }
+            }
             case KeyContract.CREATE_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
                     mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
@@ -145,14 +151,25 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
 
         switch (id){
             case android.R.id.home:{
-                NavUtils.navigateUpTo(this, mCarDetailPresenter.returnToCarListIntent());
+                launchCarList();
                 return true;
             }
-            case R.id.car_detail_menu_station_list:{
-                startActivity(new Intent(getContext(), StationListActivity.class));
+            case R.id.car_detail_menu_about:{
+                startActivity(new Intent(getContext(), AbouteMTeeActivity.class));
+                return true;
             }
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void launchCarList(){
+        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        if(NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()){
+            TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
+        } else{
+            NavUtils.navigateUpTo(this, upIntent);
         }
     }
 
@@ -182,11 +199,16 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
     }
 
 
+
     private void preparePresenter(){
         mCarDetailPresenter = new CarDetailPresenter(getApplicationContext()
-                , getLoaderManager()
-                , (Car)getIntent().getParcelableExtra(KeyContract.CAR));
+                , getLoaderManager());
         mCarDetailPresenter.attachView(this);
+        if(getIntent().hasExtra(KeyContract.CAR)){
+            mCarDetailPresenter.updateCar((Car)getIntent().getParcelableExtra(KeyContract.CAR));
+        } else {
+            mCarDetailPresenter.checkForCars();
+        }
         mCarDetailPresenter.loadCar();
         mCarDetailPresenter.initChart(mFuelChart);
     }

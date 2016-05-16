@@ -20,6 +20,8 @@ import com.automotive.hhi.mileagetracker.presenter.AddCarPresenter;
 import com.automotive.hhi.mileagetracker.view.interfaces.AddCarView;
 import com.squareup.picasso.Picasso;
 
+import java.security.Key;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -49,7 +51,11 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAddCarPresenter = new AddCarPresenter((Car)getIntent().getParcelableExtra(KeyContract.CAR)
+        Car car = new Car();
+        if(getIntent().hasExtra(KeyContract.CAR)){
+            car = getIntent().getParcelableExtra(KeyContract.CAR);
+        }
+        mAddCarPresenter = new AddCarPresenter(car
                 , getIntent().getBooleanExtra(KeyContract.IS_EDIT, false)
                 , getContext());
         setContentView(R.layout.activity_add_car);
@@ -101,7 +107,6 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
 
     @Override
     public void setFields(){
-        Log.i(LOG_TAG, "Image URI: " + mAddCarPresenter.getCar().getImage());
         if(mAddCarPresenter.getCar().getImage() != null) {
             Picasso.with(getContext())
                     .load(Uri.parse(mAddCarPresenter.getCar().getImage()))
@@ -136,20 +141,35 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
 
     @Override
     public void selectImage(Intent selectImageIntent){
-        Log.i(LOG_TAG, "selecting image");
         startActivityForResult(Intent
                 .createChooser(selectImageIntent, "Select Image"), KeyContract.SELECT_IMAGE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        Log.i(LOG_TAG, "returned from gallery");
         if(requestCode == KeyContract.SELECT_IMAGE
                 && resultCode == Activity.RESULT_OK
                 && data != null
                 && data.getData() != null){
-            Log.i(LOG_TAG, "got image");
             mAddCarPresenter.saveImage(data.getData());
         }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putParcelable(KeyContract.CAR, mAddCarPresenter.getCar());
+        savedInstanceState.putString(KeyContract.CAR_NAME, mName.getText().toString());
+        savedInstanceState.putString(KeyContract.CAR_MAKE, mMake.getText().toString());
+        savedInstanceState.putString(KeyContract.CAR_MODEL, mModel.getText().toString());
+        savedInstanceState.putString(KeyContract.CAR_YEAR, mYear.getText().toString());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        mName.setText(savedInstanceState.getString(KeyContract.CAR_NAME));
+        mMake.setText(savedInstanceState.getString(KeyContract.CAR_MAKE));
+        mModel.setText(savedInstanceState.getString(KeyContract.CAR_MODEL));
+        mYear.setText(savedInstanceState.getString(KeyContract.CAR_YEAR));
+    }
+
 }

@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -26,32 +28,28 @@ import android.widget.Toast;
 import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.adapters.LocBasedStationAdapter;
 import com.automotive.hhi.mileagetracker.adapters.StationAdapter;
+import com.automotive.hhi.mileagetracker.adapters.StationViewPagerAdapter;
+import com.automotive.hhi.mileagetracker.model.callbacks.StationFragmentListener;
 import com.automotive.hhi.mileagetracker.model.managers.LocationService;
 import com.automotive.hhi.mileagetracker.presenter.SelectStationPresenter;
+import com.automotive.hhi.mileagetracker.view.fragments.NearbyStationFragment;
+import com.automotive.hhi.mileagetracker.view.fragments.UsedStationFragment;
 import com.automotive.hhi.mileagetracker.view.interfaces.SelectStationView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SelectStationActivity extends AppCompatActivity implements SelectStationView {
+public class SelectStationActivity extends AppCompatActivity implements SelectStationView, StationFragmentListener {
 
     private final String LOG_TAG = SelectStationActivity.class.getSimpleName();
 
-    private final int PERMISSION_REQUEST_CODE = 100;
-
-    @Bind(R.id.select_station_address_input)
-    public EditText mAddressSearch;
-    @Bind(R.id.select_station_address_find_button)
-    public Button mAddressSearchButton;
-    @Bind(R.id.select_station_nearby_label)
-    public TextView mNearbyLabel;
-    @Bind(R.id.select_station_nearby_rv)
-    public RecyclerView mNearbyStationRV;
-    @Bind(R.id.select_station_used_rv)
-    public RecyclerView mUsedStationRV;
     @Bind(R.id.select_station_toolbar)
     public Toolbar mToolbar;
+    @Bind(R.id.select_station_tabs)
+    public TabLayout mTabLayout;
+    @Bind(R.id.select_station_view_pager)
+    public ViewPager mViewPager;
     private SelectStationPresenter mSelectStationPresenter;
 
     @Override
@@ -62,35 +60,9 @@ public class SelectStationActivity extends AppCompatActivity implements SelectSt
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mUsedStationRV.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mNearbyStationRV.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        setViewPager();
         preparePresenter();
-        checkPermission();
 
-    }
-
-    @OnClick(R.id.select_station_address_find_button)
-    public void addressSearch(){
-        if(!mSelectStationPresenter.isOnline()){
-            Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_LONG).show();
-        } else{
-            ((LocBasedStationAdapter)mNearbyStationRV.getAdapter()).clearStations();
-            getContext()
-                    .startService(mSelectStationPresenter
-                            .findStationsFromAddress(mAddressSearch.getText().toString()));
-            mNearbyLabel.setText(R.string.select_station_search_station_text);
-        }
-    }
-
-    @Override
-    public void showNearby(LocBasedStationAdapter stations) {
-        mNearbyStationRV.setAdapter(stations);
-    }
-
-    @Override
-    public void showUsed(StationAdapter stations) {
-        mUsedStationRV.setAdapter(stations);
-        stations.notifyDataSetChanged();
     }
 
     @Override
@@ -103,54 +75,6 @@ public class SelectStationActivity extends AppCompatActivity implements SelectSt
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_station_select, menu);
         return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
-            case android.R.id.home:{
-                NavUtils.navigateUpTo(this, mSelectStationPresenter.returnToCarDetailIntent());
-                return true;
-            }
-            case 1:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getApplicationContext()
-                , android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this
-                    , new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}
-                    , PERMISSION_REQUEST_CODE);
-        } else{
-            Log.i(LOG_TAG, "Launching location service from checkPermission");
-            launchService(new Intent(getContext(), LocationService.class));
-        }
-    }
-
-    private void preparePresenter(){
-        mSelectStationPresenter = new SelectStationPresenter(getApplicationContext(), getLoaderManager());
-        mSelectStationPresenter.attachView(this);
-    }
-
-    @Override
-    public void returnStation(Intent returnStationIntent){
-        setResult(RESULT_OK, returnStationIntent);
-        finish();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            launchService(new Intent(getContext(), LocationService.class));
-
-        }
     }
 
     @Override
@@ -174,9 +98,39 @@ public class SelectStationActivity extends AppCompatActivity implements SelectSt
                 .show();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:{
+                setResult(RESULT_CANCELED);
+                finish();
+                return true;
+            }
+            case R.id.station_select_menu_about: {
+                startActivity(new Intent(getContext(), AbouteMTeeActivity.class));
+                return true;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setViewPager(){
+        StationViewPagerAdapter adapter = new StationViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new NearbyStationFragment(), "Nearby Stations");
+        adapter.addFragment(new UsedStationFragment(), "Visited Stations");
+        mViewPager.setAdapter(adapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void preparePresenter(){
+        mSelectStationPresenter = new SelectStationPresenter(getApplicationContext());
+        mSelectStationPresenter.attachView(this);
+    }
 
     @Override
-    public void launchService(Intent intent){
-        getContext().startService(intent);
+    public void stationSelected(Intent stationIntent) {
+        setResult(RESULT_OK, stationIntent);
+        finish();
     }
 }

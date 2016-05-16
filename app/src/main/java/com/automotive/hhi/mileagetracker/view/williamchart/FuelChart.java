@@ -39,13 +39,12 @@ public class FuelChart {
     private String[] mLabels = {"1", "2", "3"};
     private float[] mValues = {1f, 1f, 1f};
 
+
     public FuelChart(LineChartView fuelChart, Context context, ArrayList<Fillup> fillups){
         mFuelChart = fuelChart;
         mContext = context;
         mFillups = fillups;
-
     }
-
 
     public void show(int avgMpg){
         if(mFillups.size()>1) {

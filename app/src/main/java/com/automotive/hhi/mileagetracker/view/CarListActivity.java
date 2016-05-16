@@ -105,7 +105,8 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            case 1:
+            case R.id.car_list_menu_about:
+                startActivity(new Intent(getContext(), AbouteMTeeActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

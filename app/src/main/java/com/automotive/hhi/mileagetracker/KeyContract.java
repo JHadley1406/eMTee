@@ -33,6 +33,7 @@ public class KeyContract {
     public static final int EDIT_FILLUP_CODE = 1477;
     public static final int CREATE_FILLUP_CODE = 1476;
     public static final int SELECT_IMAGE = 3245;
+    public static final int PERMISSION_REQUEST_CODE = 100;
 
     public static final String GOOGLURL = "https://maps.googleapis.com/";
     public static final String MYGASFEEDURL = "http://api.mygasfeed.com/";
@@ -41,4 +42,15 @@ public class KeyContract {
     public static final String LOCATION_OK = "location_ok";
     public static final String NEW_LOCATION = "new_location";
     public static final String STATION_LIST = "station_list";
+
+    public static final String FUEL_PRICE = "fillup_fuel_price";
+    public static final String DATE = "fillup_date";
+    public static final String FUEL_AMOUNT = "fillup_fuel_amount";
+    public static final String OCTANE_POSITION = "fillup_octane_position";
+    public static final String MILES = "fillup_mileage";
+
+    public static final String CAR_NAME = "add_car_name";
+    public static final String CAR_MAKE = "add_car_make";
+    public static final String CAR_MODEL = "add_car_model";
+    public static final String CAR_YEAR = "add_car_year";
 }

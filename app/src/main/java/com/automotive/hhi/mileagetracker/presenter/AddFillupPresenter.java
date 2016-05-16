@@ -83,7 +83,15 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
 
     public Car getCar(){ return mCar;}
 
+    public void setCar(Car car){
+        mCar = car;
+    }
+
     public Fillup getFillup() { return mFillup; }
+
+    public void setFillup(Fillup fillup){
+        mFillup = fillup;
+    }
 
     public Station getStation(){ return mStation; }
 

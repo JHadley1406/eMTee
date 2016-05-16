@@ -13,6 +13,7 @@ import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.adapters.FillupAdapter;
 import com.automotive.hhi.mileagetracker.model.callbacks.ViewHolderOnClickListener;
 import com.automotive.hhi.mileagetracker.model.data.Car;
+import com.automotive.hhi.mileagetracker.model.data.CarFactory;
 import com.automotive.hhi.mileagetracker.model.data.Fillup;
 import com.automotive.hhi.mileagetracker.model.data.FillupFactory;
 import com.automotive.hhi.mileagetracker.model.data.Station;
@@ -45,11 +46,11 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
 
     public Car mCurrentCar;
 
-    public CarDetailPresenter(Context context, LoaderManager loaderManager, Car car){
+    public CarDetailPresenter(Context context, LoaderManager loaderManager){
         mContext = context;
         mLoaderManager = loaderManager;
         mFillupAdapter = new FillupAdapter(mContext, null, this);
-        mCurrentCar = car;
+        mCurrentCar = new Car();
     }
 
 
@@ -62,6 +63,80 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
     @Override
     public void detachView() {
         mCarDetailView = null;
+    }
+
+    @Override
+    public void onClick(Fillup fillup){
+        Intent editFillupIntent = new Intent(mCarDetailView.getContext(), AddFillupActivity.class);
+        editFillupIntent.putExtra(KeyContract.CAR, mCurrentCar);
+        editFillupIntent.putExtra(KeyContract.FILLUP, fillup);
+        editFillupIntent.putExtra(KeyContract.IS_EDIT, true);
+        Cursor stationCursor = mContext.getContentResolver().query(
+                DataContract.StationTable.CONTENT_URI
+                , null
+                , DataContract.StationTable._ID + " = " + fillup.getStationId()
+                , null, null);
+        if(stationCursor.moveToFirst()) {
+            editFillupIntent.putExtra(KeyContract.STATION, StationFactory.fromCursor(stationCursor));
+        } else{
+            editFillupIntent.putExtra(KeyContract.STATION, new Station());
+        }
+        mCarDetailView.launchActivity(editFillupIntent, KeyContract.EDIT_FILLUP_CODE);
+    }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String sortOrder = "date DESC";
+        Log.i(LOG_TAG, "Current Car ID : " + mCurrentCar.getId());
+        return new CursorLoader(mContext
+                , DataContract.FillupTable.CONTENT_URI
+                , null
+                , DataContract.FillupTable.CAR + " = " + mCurrentCar.getId()
+                , null, sortOrder);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mFillupAdapter.changeCursor(data);
+        mCarDetailView.showFillups(mFillupAdapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mLoaderManager.restartLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
+    }
+
+    private ArrayList<Fillup> getFillups(){
+        ArrayList<Fillup> fillupList = new ArrayList<>();
+        Cursor fillupCursor = mContext.getContentResolver()
+                .query(DataContract.FillupTable.CONTENT_URI
+                        , null, DataContract.FillupTable.CAR + " = " + mCurrentCar.getId()
+                        , null, "date ASC");
+        if(fillupCursor.moveToFirst()){
+            while(fillupCursor.moveToNext()){
+                fillupList.add(FillupFactory.fromCursor(fillupCursor));
+            }
+            fillupCursor.close();
+        }
+        return fillupList;
+    }
+
+    public void initChart(LineChartView fuelChartView){
+        mFuelChart = new FuelChart(fuelChartView, mContext, getFillups());
+        mFuelChart.show((int) Math.round(mCurrentCar.getAvgMpg()));
+    }
+
+    public void notifyChartDataChanged(){
+        mFuelChart.update(getFillups());
+    }
+
+    public void launchEditCar(){
+
+        Intent editCarIntent = new Intent(mCarDetailView.getContext(), AddCarActivity.class);
+        editCarIntent.putExtra(KeyContract.CAR, mCurrentCar);
+        editCarIntent.putExtra(KeyContract.IS_EDIT, true);
+        mCarDetailView.launchActivity(editCarIntent, KeyContract.EDIT_CAR_CODE);
     }
 
     public void loadCar(){
@@ -94,83 +169,21 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         mCarDetailView.launchActivity(addFillupIntent, KeyContract.CREATE_FILLUP_CODE);
     }
 
-    public void launchCarList(){
-        mCarDetailView.launchActivity(new Intent(mContext, CarListActivity.class), KeyContract.CALL_CAR_LIST);
-    }
-
     public Intent returnToCarListIntent(){
         Intent backIntent = new Intent(mContext, CarListActivity.class);
         return backIntent;
     }
 
-    @Override
-    public void onClick(Fillup fillup){
-        Intent editFillupIntent = new Intent(mCarDetailView.getContext(), AddFillupActivity.class);
-        editFillupIntent.putExtra(KeyContract.CAR, mCurrentCar);
-        editFillupIntent.putExtra(KeyContract.FILLUP, fillup);
-        editFillupIntent.putExtra(KeyContract.IS_EDIT, true);
-        Cursor stationCursor = mContext.getContentResolver().query(
-                DataContract.StationTable.CONTENT_URI
-                , null
-                , DataContract.StationTable._ID + " = " + fillup.getStationId()
-                , null, null);
-        if(stationCursor.moveToFirst()) {
-            editFillupIntent.putExtra(KeyContract.STATION, StationFactory.fromCursor(stationCursor));
-        } else{
-            editFillupIntent.putExtra(KeyContract.STATION, new Station());
-        }
-        mCarDetailView.launchActivity(editFillupIntent, KeyContract.EDIT_FILLUP_CODE);
-    }
-
-    private ArrayList<Fillup> getFillups(){
-        ArrayList<Fillup> fillupList = new ArrayList<>();
-        Cursor fillupCursor = mContext.getContentResolver().query(DataContract.FillupTable.CONTENT_URI, null, DataContract.FillupTable.CAR + " = " + mCurrentCar.getId(), null, "date ASC");
-        if(fillupCursor.moveToFirst()){
-            while(fillupCursor.moveToNext()){
-                fillupList.add(FillupFactory.fromCursor(fillupCursor));
+    public void checkForCars(){
+        Cursor carList = mContext.getContentResolver().query(DataContract.CarTable.CONTENT_URI, null, null, null, null);
+        if(carList != null && carList.moveToFirst()){
+            if(carList.getCount() == 1){
+                mCurrentCar = CarFactory.fromCursor(carList);
+            } else {
+                mCarDetailView.launchCarList();
             }
-            fillupCursor.close();
+        } else{
+            mCarDetailView.launchActivity(new Intent(mContext, AddCarActivity.class), KeyContract.CREATE_CAR_CODE);
         }
-        return fillupList;
-    }
-
-    public void initChart(LineChartView fuelChartView){
-        mFuelChart = new FuelChart(fuelChartView, mContext, getFillups());
-        mFuelChart.show((int) Math.round(mCurrentCar.getAvgMpg()));
-    }
-
-    public void notifyChartDataChanged(){
-        mFuelChart.update(getFillups());
-    }
-
-    public void launchEditCar(){
-
-        Intent editCarIntent = new Intent(mCarDetailView.getContext(), AddCarActivity.class);
-        editCarIntent.putExtra(KeyContract.CAR, mCurrentCar);
-        editCarIntent.putExtra(KeyContract.IS_EDIT, true);
-        mCarDetailView.launchActivity(editCarIntent, KeyContract.EDIT_CAR_CODE);
-    }
-
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortOrder = "date DESC";
-        Log.i(LOG_TAG, "Current Car ID : " + mCurrentCar.getId());
-        return new CursorLoader(mContext
-                , DataContract.FillupTable.CONTENT_URI
-                , null
-                , DataContract.FillupTable.CAR + " = " + mCurrentCar.getId()
-                , null, sortOrder);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mFillupAdapter.changeCursor(data);
-        mCarDetailView.showFillups(mFillupAdapter);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mLoaderManager.restartLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
     }
 }

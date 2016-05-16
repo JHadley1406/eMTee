@@ -1,84 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.automotive.hhi.mileagetracker" >
-    
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".view.CarListActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".view.CarDetailActivity"
+            android:label="@string/title_activity_car_detail"
+            android:parentActivityName=".view.CarListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".view.CarDetailActivity"
-            android:label="@string/title_activity_car_detail"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".view.CarListActivity">
             <meta-data
                 android:name="android:support.PARENT_ACTIVITY"
-                android:value=".view.CarListActivity"/>
+                android:value=".view.CarListActivity" />
         </activity>
         <activity
             android:name=".view.SelectStationActivity"
             android:label="@string/title_activity_select_station"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".view.CarDetailActivity">
+            android:parentActivityName=".view.AddFillupActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android:support.PARENT_ACTIVITY"
-                android:value=".view.CarDetailActivity"/>
+                android:value=".view.CarDetailActivity" />
         </activity>
         <activity
             android:name=".view.StationListActivity"
             android:label="@string/title_activity_station_list"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".view.AddCarActivity"
+        <activity
+            android:name=".view.AddCarActivity"
             android:label="@string/title_activity_add_car"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
-        <activity android:name=".view.AddFillupActivity"
+        <activity
+            android:name=".view.AddFillupActivity"
             android:label="@string/title_activity_add_fillup"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
         </activity>
-        <service android:name=".model.managers.GasStationFinderService"
+
+        <service
+            android:name=".model.managers.GasStationFinderService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
         </service>
-        <service android:name=".model.managers.LocationService"
+        <service
+            android:name=".model.managers.LocationService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
         </service>
-        <service android:name=".model.managers.CarListWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+        <service
+            android:name=".model.managers.CarListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <provider
-            android:authorities="com.automotive.hhi.mileagetracker"
             android:name=".model.database.DataProvider"
+            android:authorities="com.automotive.hhi.mileagetracker"
             android:exported="false"
             android:syncable="true" />
-        <receiver android:name=".view.widget.CarListWidget">
+
+        <receiver android:name=".view.widget.CarListWidget" >
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_provider"/>
+                android:resource="@xml/widget_provider" />
         </receiver>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/places_key"/>
+            android:value="@string/places_key" />
+
+        <activity
+            android:name=".view.AbouteMTeeActivity"
+            android:label="@string/title_activity_aboute_mtee"
+            android:parentActivityName=".view.CarDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.automotive.hhi.mileagetracker.view.CarDetailActivity" />
+        </activity>
     </application>
 
 </manifest>

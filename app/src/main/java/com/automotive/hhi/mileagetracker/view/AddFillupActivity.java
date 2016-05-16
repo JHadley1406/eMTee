@@ -71,10 +71,29 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Car car;
+        if(getIntent().hasExtra(KeyContract.CAR)){
+            car = getIntent().getParcelableExtra(KeyContract.CAR);
+        } else{
+            car = new Car();
+        }
+        Station station;
+        if(getIntent().hasExtra(KeyContract.STATION)){
+            station = getIntent().getParcelableExtra(KeyContract.STATION);
+        } else{
+            station = new Station();
+        }
+        Fillup fillup;
+        if(getIntent().hasExtra(KeyContract.FILLUP)){
+            fillup = getIntent().getParcelableExtra(KeyContract.FILLUP);
+        } else{
+            fillup = new Fillup();
+        }
+
         mAddFillupPresenter =
-                new AddFillupPresenter((Fillup) getIntent().getParcelableExtra(KeyContract.FILLUP)
-                        , (Car) getIntent().getParcelableExtra(KeyContract.CAR)
-                        , (Station) getIntent().getParcelableExtra(KeyContract.STATION)
+                new AddFillupPresenter(fillup
+                        , car
+                        , station
                         , getIntent().getBooleanExtra(KeyContract.IS_EDIT, false)
                         , getContext());
         setContentView(R.layout.activity_add_fillup);
@@ -176,6 +195,31 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
                 break;
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putParcelable(KeyContract.CAR, mAddFillupPresenter.getCar());
+        savedInstanceState.putParcelable(KeyContract.STATION, mAddFillupPresenter.getStation());
+        savedInstanceState.putParcelable(KeyContract.FILLUP, mAddFillupPresenter.getFillup());
+        savedInstanceState.putString(KeyContract.OCTANE, mOctane.getSelectedItem().toString());
+        savedInstanceState.putString(KeyContract.FUEL_PRICE, mFuelPrice.getText().toString());
+        savedInstanceState.putString(KeyContract.FUEL_AMOUNT, mFuelAmount.getText().toString());
+        savedInstanceState.putString(KeyContract.MILES, mMileage.getText().toString());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        mAddFillupPresenter
+                .setCar((Car) savedInstanceState.getParcelable(KeyContract.CAR));
+        mAddFillupPresenter
+                .setStation((Station) savedInstanceState.getParcelable(KeyContract.STATION));
+        mAddFillupPresenter
+                .setFillup((Fillup) savedInstanceState.getParcelable(KeyContract.FILLUP));
+        mFuelAmount.setText(savedInstanceState.getString(KeyContract.FUEL_AMOUNT));
+        mFuelPrice.setText(savedInstanceState.getString(KeyContract.FUEL_PRICE));
+        mOctane.setSelection(mOctaneAdapter.getPosition(mAddFillupPresenter.getFillup().getReadableOctane()));
+        mMileage.setText(savedInstanceState.getString(KeyContract.MILES));
     }
 
     @Override
