@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.adapters.LocBasedStationAdapter;
 import com.automotive.hhi.mileagetracker.model.callbacks.StationFragmentListener;
-import com.automotive.hhi.mileagetracker.model.data.Station;
 import com.automotive.hhi.mileagetracker.model.managers.LocationService;
 import com.automotive.hhi.mileagetracker.presenter.NearbyStationPresenter;
 import com.automotive.hhi.mileagetracker.view.interfaces.NearbyStationView;

@@ -1,9 +1,7 @@
 package com.automotive.hhi.mileagetracker.presenter;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Binder;
 import android.os.Bundle;

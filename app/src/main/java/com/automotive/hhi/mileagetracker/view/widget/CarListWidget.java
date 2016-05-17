@@ -11,11 +11,8 @@ import android.widget.RemoteViews;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;
-import com.automotive.hhi.mileagetracker.model.data.Car;
 import com.automotive.hhi.mileagetracker.model.managers.CarListWidgetService;
-import com.automotive.hhi.mileagetracker.presenter.WidgetPresenter;
 import com.automotive.hhi.mileagetracker.view.CarDetailActivity;
-import com.google.android.gms.common.api.PendingResult;
 
 /**
  * Created by Josiah Hadley on 4/28/2016.
@@ -46,8 +43,6 @@ public class CarListWidget extends AppWidgetProvider {
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.car_widget_list);
             remoteViews.setRemoteAdapter(appWidgetIds[i], R.id.car_widget_list_view, intent);
-
-            //remoteViews.setEmptyView(R.id.car_widget_list_view, R.id.car_widget_empty_view);
 
             Intent launchIntent = new Intent(context, CarListWidget.class);
             launchIntent.setAction(KeyContract.WIDGET_CAR_SELECTED);

@@ -12,15 +12,6 @@ public class Car implements Parcelable {
     private String name;
     private String make;
     private String model;
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     private String image;
     private int year;
     private double avgMpg;
@@ -35,6 +26,14 @@ public class Car implements Parcelable {
         setImage(in.readString());
         setYear(in.readInt());
         setAvgMpg(in.readDouble());
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public long getId() {

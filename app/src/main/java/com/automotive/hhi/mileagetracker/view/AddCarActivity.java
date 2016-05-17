@@ -3,7 +3,6 @@ package com.automotive.hhi.mileagetracker.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +18,6 @@ import com.automotive.hhi.mileagetracker.model.data.Car;
 import com.automotive.hhi.mileagetracker.presenter.AddCarPresenter;
 import com.automotive.hhi.mileagetracker.view.interfaces.AddCarView;
 import com.squareup.picasso.Picasso;
-
-import java.security.Key;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

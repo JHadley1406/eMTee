@@ -49,7 +49,7 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             , Context context){
         mContext = context;
         mIsEdit = isEdit;
-        mStation = station;     //Do we need to pass this?
+        mStation = station;
         mCar = car;
         mFillup = fillup;
         if(isEdit){
@@ -216,15 +216,12 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             fillupCount = allFillups.getCount()-1;
 
             while (allFillups.moveToNext()) {
-                mpgTotal += allFillups.getInt(allFillups.getColumnIndexOrThrow(DataContract.FillupTable.MPG));
+                mpgTotal += allFillups.getDouble(allFillups.getColumnIndexOrThrow(DataContract.FillupTable.MPG));
             }
-
-            mCar.setAvgMpg(mpgTotal / fillupCount);
-
+            if(fillupCount > 0) {
+                mCar.setAvgMpg(mpgTotal / fillupCount);
+            }
             allFillups.close();
-        } else {
-            mFillup.setFillupMpg(0.0);
-            mCar.setAvgMpg(mFillup.getFillupMpg());
         }
         mContext.getContentResolver().update(DataContract.CarTable.CONTENT_URI, CarFactory.toContentValues(mCar), DataContract.CarTable._ID + " = " + mCar.getId(), null);
 

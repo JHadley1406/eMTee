@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.widget.DatePicker;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;

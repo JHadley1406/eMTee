@@ -3,7 +3,6 @@ package com.automotive.hhi.mileagetracker.model.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.ContactsContract;
 
 /**
  * Created by Josiah Hadley on 3/24/2016.

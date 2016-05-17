@@ -38,7 +38,6 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     @Bind(R.id.car_list_toolbar)
     public Toolbar mToolbar;
     private CarListPresenter mCarListPresenter;
-    private AddCarActivity mAddCarActivity;
 
 
     @Override
@@ -77,16 +76,6 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     public void showCars(CarAdapter cars) {
         mCarRecyclerView.setAdapter(cars);
         cars.notifyDataSetChanged();
-        /*
-        if(cars.getCursor().getCount() == 0){
-            addCar();
-        } else if(cars.getCursor().getCount() == 1){
-            Car car = CarFactory.fromCursor(cars.getCursor());
-            Intent carDetailIntent = new Intent(getApplicationContext(), CarDetailActivity.class);
-            carDetailIntent.putExtra(KeyContract.CAR_ID, car.getId());
-            launchCarDetail(carDetailIntent);
-        }*/
-
     }
 
     @Override

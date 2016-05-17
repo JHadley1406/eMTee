@@ -1,6 +1,5 @@
 package com.automotive.hhi.mileagetracker.model.managers;
 
-import android.app.IntentService;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,12 +12,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
-import com.automotive.hhi.mileagetracker.model.database.DataContract;
-import com.automotive.hhi.mileagetracker.model.retrofit.GooglePlacesService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;

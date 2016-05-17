@@ -88,7 +88,6 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String sortOrder = "date DESC";
-        Log.i(LOG_TAG, "Current Car ID : " + mCurrentCar.getId());
         return new CursorLoader(mContext
                 , DataContract.FillupTable.CONTENT_URI
                 , null

@@ -77,7 +77,6 @@ public class GasStationFinderService extends IntentService{
                     , fuelType);
         } else if(intent.hasExtra(KeyContract.LATLNG)){
             LatLng latLng = intent.getParcelableExtra(KeyContract.LATLNG);
-            Log.i(LOG_TAG, "Automagic location: Lat: " + latLng.latitude + " lng: " + latLng.longitude);
             getStations(latLng, distance, fuelType);
         }
     }
@@ -95,7 +94,6 @@ public class GasStationFinderService extends IntentService{
     }
 
     private void getStations(LatLng latLng, int distance, String fuelType){
-        Log.i(LOG_TAG, "In getStations: lat: " + latLng.latitude + " lng: " + latLng.longitude + " distance: " + distance + " FuelType: " + fuelType);
         Call<MyGasFeedData> stations = mMyGasFeedService.listStations(latLng.latitude
                 , latLng.longitude
                 , distance

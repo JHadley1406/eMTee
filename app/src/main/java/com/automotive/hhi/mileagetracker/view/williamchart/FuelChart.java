@@ -60,7 +60,7 @@ public class FuelChart {
 
     private void buildTip(){
         mTip = new Tooltip(mContext, R.layout.fuel_chart_tooltip, R.id.tool_tip_value);
-        mTip.setBackgroundColor(mContext.getColor(R.color.colorAccent));
+        mTip.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
         mTip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
         mTip.setDimensions((int) Tools.fromDpToPx(100), (int) Tools.fromDpToPx(25));
 
@@ -85,20 +85,20 @@ public class FuelChart {
                 .setAxisBorderValues(0, mAvgMpg*2)
                 .setYLabels(AxisController.LabelPosition.NONE)
                 .setXLabels(AxisController.LabelPosition.NONE)
-                .setLabelsColor(mContext.getColor(R.color.black))
+                .setLabelsColor(mContext.getResources().getColor(R.color.black))
                 .setXAxis(false)
                 .setYAxis(false)
-                .setBackgroundColor(mContext.getColor(R.color.colorPrimary));
+                .setBackgroundColor(mContext.getResources().getColor(R.color.colorPrimary));
         buildDataSet();
     }
 
     private void buildDataSet(){
         fillupsToVals();
         LineSet dataset = new LineSet(mLabels, mValues);
-        dataset.setColor(mContext.getColor(R.color.colorPrimaryDark))
+        dataset.setColor(mContext.getResources().getColor(R.color.colorPrimaryDark))
                 .setThickness(4)
-                .setFill(mContext.getColor(R.color.colorPrimaryDark))
-                .setDotsColor(mContext.getColor(R.color.colorAccent));
+                .setFill(mContext.getResources().getColor(R.color.colorPrimaryDark))
+                .setDotsColor(mContext.getResources().getColor(R.color.colorAccent));
         mFuelChart.addData(dataset);
         Animation animation = new Animation()
                 .setEasing(new BounceEase())

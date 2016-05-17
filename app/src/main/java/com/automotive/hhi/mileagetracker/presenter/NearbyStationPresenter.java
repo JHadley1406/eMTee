@@ -1,6 +1,5 @@
 package com.automotive.hhi.mileagetracker.presenter;
 
-import android.app.LoaderManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +11,9 @@ import android.util.Log;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.adapters.LocBasedStationAdapter;
-import com.automotive.hhi.mileagetracker.adapters.StationAdapter;
 import com.automotive.hhi.mileagetracker.model.callbacks.ViewHolderOnClickListener;
 import com.automotive.hhi.mileagetracker.model.data.Station;
 import com.automotive.hhi.mileagetracker.model.managers.GasStationFinderService;
-import com.automotive.hhi.mileagetracker.view.fragments.NearbyStationFragment;
 import com.automotive.hhi.mileagetracker.view.interfaces.NearbyStationView;
 import com.google.android.gms.maps.model.LatLng;
 
