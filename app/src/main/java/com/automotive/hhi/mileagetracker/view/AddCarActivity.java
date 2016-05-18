@@ -58,9 +58,6 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
         setContentView(R.layout.activity_add_car);
         ButterKnife.bind(this);
         mAddCarPresenter.attachView(this);
-        if(mAddCarPresenter.getIsEdit()){
-            mAddCar.setText(getResources().getString(R.string.add_car_edit_button));
-        }
     }
 
 

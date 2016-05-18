@@ -71,7 +71,7 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         setContentView(R.layout.activity_car_detail);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mFillupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -151,7 +151,7 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         int id = item.getItemId();
 
         switch (id){
-            case android.R.id.home:{
+            case R.id.car_detail_menu_manage_cars:{
                 launchCarList();
                 return true;
             }
@@ -166,12 +166,13 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
 
     @Override
     public void launchCarList(){
-        Intent upIntent = NavUtils.getParentActivityIntent(this);
+        startActivity(new Intent(getContext(), CarListActivity.class));
+        /*Intent upIntent = NavUtils.getParentActivityIntent(this);
         if(NavUtils.shouldUpRecreateTask(this, upIntent) || isTaskRoot()){
             TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
         } else{
             NavUtils.navigateUpTo(this, upIntent);
-        }
+        }*/
     }
 
     @Override

@@ -11,11 +11,19 @@
     tools:context="com.automotive.hhi.mileagetracker.view.AbouteMTeeActivity"
     style="@style/AppTheme"
     android:background="@color/colorPrimaryDark">
-    <TextView
-        android:background="@color/colorPrimary"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/about_page_text"
-        android:textSize="22sp"
-        android:autoLink="web"/>
+        android:background="@color/colorPrimary">
+        <TextView
+            android:id="@+id/about_emtee_text"
+            android:background="@color/colorPrimary"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:linksClickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/about_page_text"
+            android:textSize="22sp"/>
+    </LinearLayout>
 </RelativeLayout>

@@ -85,12 +85,15 @@ public class GasStationFinderService extends IntentService{
         try {
             Geocoder geocoder = new Geocoder(getApplicationContext());
             List<Address> locations = geocoder.getFromLocationName(address, 1);
-
-            return new LatLng(locations.get(0).getLatitude(), locations.get(0).getLongitude());
+            if(locations.size() > 0) {
+                return new LatLng(locations.get(0).getLatitude(), locations.get(0).getLongitude());
+            } else{
+                Log.e(LOG_TAG, "No locations found");
+            }
         } catch(IOException e){
             Log.e(LOG_TAG, "IOException Caught : " + e.toString());
         }
-        return null;
+        return new LatLng(0,0);
     }
 
     private void getStations(LatLng latLng, int distance, String fuelType){

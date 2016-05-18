@@ -57,6 +57,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 style="@android:style/Widget.ProgressBar.Large"/>
+            <RelativeLayout
+                android:id="@+id/nearby_station_no_connectivity_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_above="@+id/nearby_station_no_connectivity_icon"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:text="@string/nearby_station_no_connectivity"/>
+                <ImageView
+                    android:id="@+id/nearby_station_no_connectivity_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_portable_wifi_off_black_48dp"/>
+            </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/select_station_nearby_rv"
                 android:layout_width="fill_parent"
@@ -64,7 +84,6 @@
                 android:background="@color/colorAccent"
                 android:nextFocusUp="@id/select_station_address_find_button"
                 android:nextFocusDown="@+id/select_station_used_rv">
-
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 </LinearLayout>

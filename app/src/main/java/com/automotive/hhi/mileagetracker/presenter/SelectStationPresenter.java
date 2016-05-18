@@ -4,6 +4,8 @@ package com.automotive.hhi.mileagetracker.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.automotive.hhi.mileagetracker.view.AddFillupActivity;
 import com.automotive.hhi.mileagetracker.view.interfaces.SelectStationView;

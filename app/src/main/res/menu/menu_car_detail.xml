@@ -2,6 +2,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".CarDetailActivity"
     android:background="@color/colorPrimary">
+    <item android:id="@+id/car_detail_menu_manage_cars"
+        android:background="@color/colorPrimary"
+        android:title="@string/menu_car_detail_manage_cars"
+        android:orderInCategory="10"/>
     <item android:id="@+id/car_detail_menu_about"
         android:background="@color/colorPrimary"
         android:title="@string/menu_car_about"

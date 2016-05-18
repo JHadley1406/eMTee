@@ -23,6 +23,7 @@ import com.squareup.picasso.Target;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 /**
  * Created by Josiah Hadley on 4/1/2016.
@@ -111,8 +112,7 @@ public class AddCarPresenter implements Presenter<AddCarView> {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            //TODO Car ID isn't set when adding a new car.  Need to fix the file name naming convention
-            String fileName = "carimage"+mCar.getId()+".jpg";
+            String fileName = "carimage"+ Calendar.getInstance().getTimeInMillis()+".jpg";
             FileOutputStream fileStream;
 
             mCar.setImage("file:"+mContext.getFilesDir()+"/"+fileName);

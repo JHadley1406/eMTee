@@ -19,15 +19,13 @@
     <string name="add_car_make_hint">Car Make</string>
     <string name="add_car_model_hint">Car Model</string>
     <string name="add_car_year_hint">Car Year</string>
-    <string name="add_car_add_button">Add Car</string>
-    <string name="add_car_edit_button">Edit Car</string>
+    <string name="add_car_add_button">Submit</string>
     <string name="add_car_mileage_hint">Current Mileage</string>
 
     <string name="add_fillup_fuel_amount_hint">Gallons of Fuel</string>
     <string name="add_fillup_price_hint">Price per Gallon</string>
     <string name="add_fillup_octane_hint">Octane Rating</string>
     <string name="add_fillup_add_button">Submit</string>
-    <string name="add_fillup_edit_button">Submit</string>
     <string-array name="octane_array">
         <item>Regular</item>
         <item>Mid-Grade</item>
@@ -80,9 +78,11 @@
     <string name="title_activity_aboute_mtee">About</string>
 
     <string name="about_page_text">eMTee is an easy way to manage fuel economy for all of your cars, trucks, and motorcycles.
-        \n\nGas Station data is provided by <a href="www.mygasfeed.com">My Gas Feed</a>
+        \n\nGas Station data is provided by <a href="http://www.mygasfeed.com">My Gas Feed</a>
         \n\nGraph Library made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library</string>
 
     <string name="menu_car_about">About</string>
+    <string name="nearby_station_no_connectivity">No GPS or Internet Connection</string>
+    <string name="menu_car_detail_manage_cars">Manage Cars</string>
 
 </resources>

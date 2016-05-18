@@ -102,10 +102,7 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
                 , R.layout.octane_spinner_item);
         mOctane.setAdapter(mOctaneAdapter);
         mAddFillupPresenter.attachView(this);
-        if(mAddFillupPresenter.getIsEdit()){
-            mAddFillup.setText(getResources().getString(R.string.add_fillup_edit_button));
-
-        } else{
+        if(!mAddFillupPresenter.getIsEdit()){
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             mDate.setText(sdf.format(new Date()));
         }

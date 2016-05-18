@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
@@ -76,6 +78,7 @@ public class NearbyStationPresenter implements Presenter<NearbyStationView>
     public void attachView(NearbyStationView view) {
         mNearbyStationView = view;
         mNearbyAdapter = new LocBasedStationAdapter(mStations, this);
+        checkConnectivity();
         loadNearbyStations();
     }
 
@@ -120,6 +123,18 @@ public class NearbyStationPresenter implements Presenter<NearbyStationView>
     private void updateNearbyStations(){
         mNearbyStationView.showRecyclerView();
         mNearbyAdapter.updateStations(mStations);
+    }
+
+    public boolean checkConnectivity(){
+        Log.i(LOG_TAG, "in check Connectivity");
+        if(!isOnline()
+                || ContextCompat.checkSelfPermission(mContext
+                    , android.Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED
+                ||!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            return false;
+        }
+        return true;
     }
 
 }

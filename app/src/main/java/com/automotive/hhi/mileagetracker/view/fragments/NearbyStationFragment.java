@@ -17,7 +17,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
 
     private final String LOG_TAG = NearbyStationFragment.class.getSimpleName();
 
+    @Bind(R.id.nearby_station_no_connectivity_container)
+    public RelativeLayout mConnectivityContainer;
     @Bind(R.id.select_station_address_input)
     public EditText mAddressSearch;
     @Bind(R.id.select_station_address_find_button)
@@ -100,7 +104,7 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
     public void addressSearch(){
         if(!mNearbyStationPresenter.isOnline()){
             Toast.makeText(getContext(), R.string.no_internet_error, Toast.LENGTH_LONG).show();
-        } else{
+        } else if(mAddressSearch.getText().length() > 0){
             showProgressBar();
             hideKeyboard();
             ((LocBasedStationAdapter)mNearbyStationRV.getAdapter()).clearStations();
@@ -108,6 +112,8 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
                     .startService(mNearbyStationPresenter
                             .findStationsFromAddress(mAddressSearch.getText().toString()));
             mNearbyLabel.setText(R.string.select_station_search_station_text);
+        } else{
+            mAddressSearch.setError(getContext().getResources().getString(R.string.edit_text_error));
         }
     }
 
@@ -148,6 +154,7 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
         mAddressSearch.setText("");
         mNearbyStationRV.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
+        mConnectivityContainer.setVisibility(View.GONE);
     }
 
     private void checkPermission() {
@@ -159,14 +166,27 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
                     , new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}
                     , KeyContract.PERMISSION_REQUEST_CODE);
         } else{
-            showProgressBar();
-            launchService(new Intent(getContext(), LocationService.class));
+            if(mNearbyStationPresenter.checkConnectivity()) {
+                showProgressBar();
+                launchService(new Intent(getContext(), LocationService.class));
+            } else{
+                showConnectivityIssues();
+            }
         }
     }
 
     private void showProgressBar(){
         mProgressBar.setVisibility(View.VISIBLE);
         mNearbyStationRV.setVisibility(View.INVISIBLE);
+        mConnectivityContainer.setVisibility(View.INVISIBLE);
+    }
+
+    private void showConnectivityIssues(){
+        mConnectivityContainer.setVisibility(View.VISIBLE);
+        mAddressSearchButton.setClickable(false);
+        mNearbyStationRV.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        hideKeyboard();
     }
 
     private void hideKeyboard(){

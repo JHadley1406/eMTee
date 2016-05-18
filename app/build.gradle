@@ -13,17 +13,6 @@ android {
         versionName "1.0"
     }
 
-    /*signingConfigs {
-        debug {
-            storeFile file("DEBUG_KEYSTORE")
-        }
-        release {
-            storeFile file("keystore.jks")
-            keyAlias 'mtKeystore'
-            storePassword '1q2w3e4r'
-            keyPassword '1q2w3e4r'
-        }
-    }*/
 
     buildTypes {
         debug {
@@ -33,7 +22,6 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //signingConfig signingConfigs.release
         }
     }
     productFlavors {
