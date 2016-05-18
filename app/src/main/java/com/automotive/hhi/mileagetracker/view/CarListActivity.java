@@ -122,8 +122,12 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == KeyContract.CREATE_CAR_CODE){
-            mCarListPresenter.onLoaderReset(null);
+        switch (requestCode){
+            case KeyContract.CREATE_CAR_CODE:{
+                if(resultCode == RESULT_OK){
+                    mCarListPresenter.onLoaderReset(null);
+                }
+            }
         }
     }
 
