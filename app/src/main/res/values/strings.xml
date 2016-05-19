@@ -91,4 +91,6 @@
 
     <string name="nearby_station_no_connectivity">No GPS or Internet Connection</string>
 
+    <string name="places_key">PLACES_KEY</string>
+
 </resources>
