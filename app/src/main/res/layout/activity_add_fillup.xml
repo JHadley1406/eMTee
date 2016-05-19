@@ -114,7 +114,7 @@
                 android:layout_width="match_parent">
                 <EditText
                     android:id="@+id/add_fillup_current_mileage"
-                    android:hint="Current Mileage"
+                    android:hint="@string/add_fillup_odometer_hint"
                     android:inputType="numberDecimal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

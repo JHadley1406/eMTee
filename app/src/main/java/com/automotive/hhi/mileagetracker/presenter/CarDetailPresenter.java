@@ -112,7 +112,8 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
                 .query(DataContract.FillupTable.CONTENT_URI
                         , null, DataContract.FillupTable.CAR + " = " + mCurrentCar.getId()
                         , null, "date ASC");
-        if(fillupCursor.moveToFirst()){
+        if(fillupCursor != null && fillupCursor.moveToFirst()){
+            // We'll skip the first fillup since it doesn't have any MPG data in it
             while(fillupCursor.moveToNext()){
                 fillupList.add(FillupFactory.fromCursor(fillupCursor));
             }
@@ -156,7 +157,8 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
                 .delete(DataContract.FillupTable.CONTENT_URI
                         , DataContract.FillupTable.CAR + " = " + mCurrentCar.getId()
                         , null);
-        mCarDetailView.close();
+        mCurrentCar = null;
+        checkForCars();
     }
 
     public void launchAddFillup(){
@@ -177,7 +179,8 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         Cursor carList = mContext.getContentResolver().query(DataContract.CarTable.CONTENT_URI, null, null, null, null);
         if(carList != null && carList.moveToFirst()){
             if(carList.getCount() == 1){
-                mCurrentCar = CarFactory.fromCursor(carList);
+                updateCar(CarFactory.fromCursor(carList));
+
             } else {
                 mCarDetailView.launchCarList();
             }
