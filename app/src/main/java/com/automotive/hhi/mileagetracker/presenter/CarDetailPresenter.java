@@ -141,6 +141,7 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
 
     public void loadCar(){
         mCarDetailView.showCar(mCurrentCar);
+        onLoaderReset(null);
     }
 
     public void updateCar(Car car){
@@ -180,7 +181,6 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         if(carList != null && carList.moveToFirst()){
             if(carList.getCount() == 1){
                 updateCar(CarFactory.fromCursor(carList));
-
             } else {
                 mCarDetailView.launchCarList();
             }

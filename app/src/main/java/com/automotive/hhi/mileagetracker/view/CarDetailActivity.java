@@ -118,7 +118,6 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
             case KeyContract.CREATE_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
                     mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
-                    mCarDetailPresenter.onLoaderReset(null);
                     mCarDetailPresenter.initChart(mFuelChart);
                 }
                 break;
@@ -126,7 +125,6 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
             case KeyContract.EDIT_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
                     mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
-                    mCarDetailPresenter.onLoaderReset(null);
                     mCarDetailPresenter.notifyChartDataChanged();
                 }
             }
