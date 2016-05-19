@@ -83,7 +83,7 @@
     <string name="menu_car_detail_station_list">Station List</string>
     <string name="menu_car_about">About</string>
     <string name="menu_car_detail_manage_cars">Manage Cars</string>
-    
+
 
     <string name="about_page_text">eMTee is an easy way to manage fuel economy for all of your cars, trucks, and motorcycles.
         \n\nGas Station data is provided by <a href="http://www.mygasfeed.com">My Gas Feed</a>

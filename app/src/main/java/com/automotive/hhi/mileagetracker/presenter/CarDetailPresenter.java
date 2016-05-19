@@ -179,7 +179,8 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         Cursor carList = mContext.getContentResolver().query(DataContract.CarTable.CONTENT_URI, null, null, null, null);
         if(carList != null && carList.moveToFirst()){
             if(carList.getCount() == 1){
-                mCurrentCar = CarFactory.fromCursor(carList);
+                updateCar(CarFactory.fromCursor(carList));
+
             } else {
                 mCarDetailView.launchCarList();
             }
