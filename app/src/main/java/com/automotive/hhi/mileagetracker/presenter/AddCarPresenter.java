@@ -45,7 +45,6 @@ public class AddCarPresenter implements Presenter<AddCarView> {
 
     @Override
     public void attachView(AddCarView view) {
-
         mAddCarView = view;
         if(mIsEdit) {
             mAddCarView.setFields();
@@ -68,7 +67,6 @@ public class AddCarPresenter implements Presenter<AddCarView> {
         Intent selectImageIntent = new Intent();
         selectImageIntent.setType("image/*");
         selectImageIntent.setAction(Intent.ACTION_GET_CONTENT);
-        Log.i(LOG_TAG, "passing image intent");
         mAddCarView.selectImage(selectImageIntent);
     }
 
