@@ -181,6 +181,7 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         if(carList != null && carList.moveToFirst()){
             if(carList.getCount() == 1){
                 updateCar(CarFactory.fromCursor(carList));
+                initChart(mCarDetailView.getChart());
             } else {
                 mCarDetailView.launchCarList();
             }
