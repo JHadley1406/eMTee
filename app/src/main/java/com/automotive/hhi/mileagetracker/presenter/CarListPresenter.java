@@ -73,12 +73,13 @@ public class CarListPresenter implements Presenter<CarListView>, ViewHolderOnCli
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        restartLoader();
+        mLoaderManager.restartLoader(LOADER_ID, null, this);
+        //restartLoader();
     }
 
-    public void restartLoader(){
-        mLoaderManager.restartLoader(LOADER_ID, null, this);
-    }
+    //public void restartLoader(){
+    //    mLoaderManager.restartLoader(LOADER_ID, null, this);
+   // }
 
     private void addCar(){
         mCarListView.addCar();

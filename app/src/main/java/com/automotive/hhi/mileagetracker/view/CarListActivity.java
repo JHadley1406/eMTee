@@ -64,7 +64,8 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     @Override
     public void onResume(){
         super.onResume();
-        mCarListPresenter.restartLoader();
+        //mCarListPresenter.restartLoader();
+        mCarListPresenter.onLoaderReset(null);
     }
     @Override
     protected void onDestroy(){

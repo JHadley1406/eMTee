@@ -117,16 +117,14 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
             }
             case KeyContract.CREATE_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
-                    mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
-                    mCarDetailPresenter.onLoaderReset(null);
+                    mCarDetailPresenter.updateCar((Car) data.getParcelableExtra(KeyContract.CAR));
                     mCarDetailPresenter.initChart(mFuelChart);
                 }
                 break;
             }
             case KeyContract.EDIT_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
-                    mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
-                    mCarDetailPresenter.onLoaderReset(null);
+                    mCarDetailPresenter.updateCar((Car) data.getParcelableExtra(KeyContract.CAR));
                     mCarDetailPresenter.notifyChartDataChanged();
                 }
             }
@@ -212,7 +210,7 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
             mCarDetailPresenter.checkForCars();
         }
         mCarDetailPresenter.loadCar();
-        mCarDetailPresenter.initChart(mFuelChart);
+        mCarDetailPresenter.initChart(getChart());
     }
 
     @Override
@@ -224,6 +222,11 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
     public void onDestroy(){
         mCarDetailPresenter.detachView();
         super.onDestroy();
+    }
+
+    @Override
+    public LineChartView getChart(){
+        return mFuelChart;
     }
 
     private void launchCarDeleteAlert(){
