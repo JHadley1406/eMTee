@@ -138,6 +138,7 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults){
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            showProgressBar();
             launchService(new Intent(getContext(), LocationService.class));
 
         }
@@ -161,9 +162,8 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
         if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext()
                 , android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity()
-                    , new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}
+            showConnectivityIssues();
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}
                     , KeyContract.PERMISSION_REQUEST_CODE);
         } else{
             if(mNearbyStationPresenter.checkConnectivity()) {
