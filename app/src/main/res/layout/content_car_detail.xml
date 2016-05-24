@@ -136,5 +136,25 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:nextFocusUp="@id/car_detail_edit_car"/>
+        <RelativeLayout
+            android:id="@+id/car_detail_no_fillups_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+            <ImageView
+                android:id="@+id/car_detail_no_fillups_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_local_gas_station_black_48dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:textSize="18sp"
+                android:text="@string/car_detail_no_fillups_text"/>
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>
