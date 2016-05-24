@@ -36,8 +36,8 @@ public class FuelChart {
 
     private int mAvgMpg;
 
-    private String[] mLabels = {"1", "2", "3"};
-    private float[] mValues = {1f, 1f, 1f};
+    private String[] mLabels = {"1", "2", "3", "4", "5", "6"};
+    private float[] mValues = {1f, .8f, 1.2f, 1f, .9f, 1f};
 
 
     public FuelChart(LineChartView fuelChart, Context context, ArrayList<Fillup> fillups){

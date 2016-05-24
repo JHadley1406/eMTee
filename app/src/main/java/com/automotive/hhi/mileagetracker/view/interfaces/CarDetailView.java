@@ -13,6 +13,8 @@ public interface CarDetailView extends MvpView {
 
     void showFillups(FillupAdapter fillupAdapter);
 
+    void showNoFillups();
+
     void showCar(Car car);
 
     void launchActivity(Intent intent, int code);

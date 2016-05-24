@@ -14,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
@@ -55,6 +57,8 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
     public ImageView mCarImage;
     @Bind(R.id.car_detail_fillups_rv)
     public RecyclerView mFillupRecyclerView;
+    @Bind(R.id.car_detail_no_fillups_container)
+    public RelativeLayout mNoFillupsContainer;
     @Bind(R.id.car_detail_delete_car)
     public Button mDeleteCar;
     @Bind(R.id.car_detail_edit_car)
@@ -175,8 +179,16 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
 
     @Override
     public void showFillups(FillupAdapter fillups) {
+        mFillupRecyclerView.setVisibility(View.VISIBLE);
+        mNoFillupsContainer.setVisibility(View.GONE);
         mFillupRecyclerView.setAdapter(fillups);
         fillups.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showNoFillups(){
+        mFillupRecyclerView.setVisibility(View.GONE);
+        mNoFillupsContainer.setVisibility(View.VISIBLE);
     }
 
     @Override

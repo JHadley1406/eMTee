@@ -97,8 +97,12 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mFillupAdapter.changeCursor(data);
-        mCarDetailView.showFillups(mFillupAdapter);
+        if(data.getCount() > 0) {
+            mFillupAdapter.changeCursor(data);
+            mCarDetailView.showFillups(mFillupAdapter);
+        } else{
+            mCarDetailView.showNoFillups();
+        }
     }
 
     @Override

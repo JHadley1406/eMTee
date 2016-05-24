@@ -90,5 +90,6 @@
         \n\nGraph Library made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library</string>
 
     <string name="nearby_station_no_connectivity">No GPS or Internet Connection</string>
+    <string name="car_detail_no_fillups_text">There are no records for this car\nPlease click Add Fill-up to begin</string>
 
 </resources>
