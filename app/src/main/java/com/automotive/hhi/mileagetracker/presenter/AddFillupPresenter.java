@@ -169,12 +169,16 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
         }
         getPreviousFillup();
         getNextFillup();
-        if(hasPreviousFillup && mFillup.getFillupMileage() <= mPrevFillup.getFillupMileage()){
+        if(hasPreviousFillup
+                && mFillup.getFillupMileage() <= mPrevFillup.getFillupMileage()
+                && mFillup.getId() != mPrevFillup.getId()){
             mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_low_warning)
                     + mPrevFillup.getFillupMileage());
             return false;
         }
-        if (hasNextFillup && mFillup.getFillupMileage() >= mNextFillup.getFillupMileage()){
+        if (hasNextFillup
+                && mFillup.getFillupMileage() >= mNextFillup.getFillupMileage()
+                && mFillup.getId() != mNextFillup.getId()){
             mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_high_warning)
                     + mNextFillup.getFillupMileage());
             return false;
