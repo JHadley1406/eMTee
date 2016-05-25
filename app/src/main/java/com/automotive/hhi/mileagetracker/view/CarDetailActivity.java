@@ -43,6 +43,8 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
     public AdView mAdView;
     @Bind(R.id.car_detail_chart)
     public LineChartView mFuelChart;
+    @Bind(R.id.car_detail_graph_title)
+    public TextView mGraphTitle;
     @Bind(R.id.car_detail_name)
     public TextView mCarName;
     @Bind(R.id.car_detail_make)
@@ -182,6 +184,9 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         mFillupRecyclerView.setVisibility(View.VISIBLE);
         mNoFillupsContainer.setVisibility(View.GONE);
         mFillupRecyclerView.setAdapter(fillups);
+        if(fillups.getItemCount() >= 3){
+            mGraphTitle.setVisibility(View.GONE);
+        }
         fillups.notifyDataSetChanged();
     }
 

@@ -76,8 +76,6 @@
 
     <string name="tool_tip_layout_mpg">mpg</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-
     <string name="tool_tip_mpg_icon_content_desc">Mile Per Gallon Tool Tip Icon</string>
 
     <string name="number_field_error">Numbers Only</string>
@@ -97,6 +95,7 @@
 
     <string name="places_key">PLACES_KEY</string>
     <string name="select_station_no_stations_text">There are no stations here\nAdd some nearby stations to get started</string>
+    <string name="car_detail_graph_sample_text">Sample Data\nAdd 3 Fill-ups to show live data</string>
 
 
 </resources>
