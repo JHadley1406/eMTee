@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="admob_app_id">KEY_GOES_HERE</string>
     <string name="car_detail_banner">KEY_GOES_HERE</string>
     <string name="car_list_banner">KEY_GOES_HERE</string>
     <string name="station_list_banner">KEY_GOES_HERE</string>

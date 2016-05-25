@@ -29,6 +29,7 @@ import com.automotive.hhi.mileagetracker.view.interfaces.CarDetailView;
 import com.db.chart.view.LineChartView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -78,7 +79,7 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         ButterKnife.bind(this);
         mToolbar.setTitle(getContext().getResources().getString(R.string.title_activity_car_detail));
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        MobileAds.initialize(getContext(), getContext().getResources().getString(R.string.admob_app_id));
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mFillupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
