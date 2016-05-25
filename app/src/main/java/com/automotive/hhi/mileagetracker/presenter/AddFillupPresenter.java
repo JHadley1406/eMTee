@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -67,8 +68,7 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
                 }
             }
         }
-        getPreviousFillup();
-        getNextFillup();
+
 
     }
 
@@ -163,22 +163,24 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             }
         }
         mAddFillupView.buildFillup();
-        if(hasPreviousFillup && mFillup.getFillupMileage() < mPrevFillup.getFillupMileage()){
-            mAddFillupView.popToast("Odometer reading cannot be less than "
+        if(!mIsEdit){
+            mFillup.setCarId(mCar.getId());
+            mFillup.setDate(System.currentTimeMillis());
+        }
+        getPreviousFillup();
+        getNextFillup();
+        if(hasPreviousFillup && mFillup.getFillupMileage() <= mPrevFillup.getFillupMileage()){
+            mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_low_warning)
                     + mPrevFillup.getFillupMileage());
             return false;
         }
-        if (hasNextFillup && mFillup.getFillupMileage() > mNextFillup.getFillupMileage()){
-            mAddFillupView.popToast("Odometer reading cannot be greater than "
+        if (hasNextFillup && mFillup.getFillupMileage() >= mNextFillup.getFillupMileage()){
+            mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_high_warning)
                     + mNextFillup.getFillupMileage());
             return false;
         }
         if(mStation.getId() != 0 && mStation.getId() != mFillup.getStationId()){
             mFillup.setStationId(mStation.getId());
-        }
-        if(!mIsEdit){
-            mFillup.setCarId(mCar.getId());
-            mFillup.setDate(System.currentTimeMillis());
         }
         calculateFillupMpg();
         insertFillup();
@@ -258,6 +260,7 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
     }
 
     private void getPreviousFillup(){
+        Log.i(LOG_TAG, "in get Previous Fillup");
         Cursor previousFillupCursor = mContext
                 .getContentResolver()
                 .query(DataContract.FillupTable.CONTENT_URI
@@ -269,12 +272,15 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
         if(previousFillupCursor != null && previousFillupCursor.moveToFirst()){
             mPrevFillup = FillupFactory.fromCursor(previousFillupCursor);
             previousFillupCursor.close();
+            Log.i(LOG_TAG, "Previous Fillup date: " + mPrevFillup.getDate());
             hasPreviousFillup = true;
+        } else {
+            hasPreviousFillup = false;
         }
-        hasPreviousFillup = false;
     }
 
     private void getNextFillup(){
+        Log.i(LOG_TAG, "in get Next Fillup");
         Cursor nextFillupCursor = mContext
                 .getContentResolver()
                 .query(DataContract.FillupTable.CONTENT_URI
@@ -286,8 +292,10 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
         if(nextFillupCursor != null && nextFillupCursor.moveToFirst()){
             mNextFillup = FillupFactory.fromCursor(nextFillupCursor);
             nextFillupCursor.close();
+            Log.i(LOG_TAG, "Next Fillup date: " + mNextFillup.getDate());
             hasNextFillup = true;
+        } else {
+            hasNextFillup = false;
         }
-        hasNextFillup = false;
     }
 }
