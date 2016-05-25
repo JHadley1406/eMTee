@@ -88,7 +88,8 @@
 
     <string name="about_page_text">eMTee is an easy way to manage fuel economy for all of your cars, trucks, and motorcycles.
         \n\nGas Station data is provided by <a href="http://www.mygasfeed.com">My Gas Feed</a>
-        \n\nMileage Graph made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library</string>
+        \n\nMileage Graph made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library
+        \n\n\n eMTee Version: 1.0.2</string>
 
     <string name="nearby_station_no_connectivity">No GPS or Internet Connection</string>
 
