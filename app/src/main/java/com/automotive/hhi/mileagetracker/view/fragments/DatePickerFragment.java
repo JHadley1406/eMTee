@@ -20,8 +20,10 @@ public class DatePickerFragment extends DialogFragment {
         int year = getArguments().getInt(KeyContract.YEAR);
         int month = getArguments().getInt(KeyContract.MONTH);
         int day = getArguments().getInt(KeyContract.DAY);
-        return new DatePickerDialog(getActivity()
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity()
                 , R.style.AppTheme_Dialog, (AddFillupActivity)getActivity(), year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return datePickerDialog;
     }
 
 }
