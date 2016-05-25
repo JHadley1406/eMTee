@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;
@@ -221,6 +222,11 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     @Override
     public void launchActivity(Intent getStationIntent, int code){
         startActivityForResult(getStationIntent, code);
+    }
+
+    @Override
+    public void popToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override

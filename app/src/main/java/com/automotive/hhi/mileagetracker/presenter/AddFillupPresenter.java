@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -40,6 +39,10 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
     private Station mStation;
     private Car mCar;
     private Fillup mFillup;
+    private Fillup mPrevFillup;
+    private Fillup mNextFillup;
+    private boolean hasPreviousFillup;
+    private boolean hasNextFillup;
     private boolean mIsEdit;
 
     public AddFillupPresenter(Fillup fillup
@@ -64,6 +67,8 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
                 }
             }
         }
+        getPreviousFillup();
+        getNextFillup();
 
     }
 
@@ -158,6 +163,16 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
             }
         }
         mAddFillupView.buildFillup();
+        if(hasPreviousFillup && mFillup.getFillupMileage() < mPrevFillup.getFillupMileage()){
+            mAddFillupView.popToast("Odometer reading cannot be less than "
+                    + mPrevFillup.getFillupMileage());
+            return false;
+        }
+        if (hasNextFillup && mFillup.getFillupMileage() > mNextFillup.getFillupMileage()){
+            mAddFillupView.popToast("Odometer reading cannot be greater than "
+                    + mNextFillup.getFillupMileage());
+            return false;
+        }
         if(mStation.getId() != 0 && mStation.getId() != mFillup.getStationId()){
             mFillup.setStationId(mStation.getId());
         }
@@ -185,19 +200,10 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
 
     private void calculateFillupMpg(){
         //pull the fillup previous to this one, find the mileage difference and then divide the difference by the amount of fuel purchased at this fillup
-        Cursor previousFillupCursor = mContext
-                .getContentResolver()
-                .query(DataContract.FillupTable.CONTENT_URI
-                        , null
-                        , DataContract.FillupTable.CAR + " = " + mCar.getId()
-                        + " AND " + DataContract.FillupTable.DATE + " < " + mFillup.getDate()
-                        , null
-                        , " date DESC LIMIT 1");
-        if(previousFillupCursor.moveToFirst()){
-            Fillup previousFillup = FillupFactory.fromCursor(previousFillupCursor);
-            mFillup.setFillupMpg((mFillup.getFillupMileage() - previousFillup.getFillupMileage())
+        if(hasPreviousFillup){
+            mFillup.setFillupMpg((mFillup.getFillupMileage() - mPrevFillup.getFillupMileage())
                     / mFillup.getGallons());
-            previousFillupCursor.close();
+
         } else{
             mFillup.setFillupMpg(0.00);
         }
@@ -249,5 +255,39 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         mFillup.setDate(cal.getTimeInMillis());
         mAddFillupView.setFields();
+    }
+
+    private void getPreviousFillup(){
+        Cursor previousFillupCursor = mContext
+                .getContentResolver()
+                .query(DataContract.FillupTable.CONTENT_URI
+                        , null
+                        , DataContract.FillupTable.CAR + " = " + mCar.getId()
+                        + " AND " + DataContract.FillupTable.DATE + " < " + mFillup.getDate()
+                        , null
+                        , " date DESC LIMIT 1");
+        if(previousFillupCursor != null && previousFillupCursor.moveToFirst()){
+            mPrevFillup = FillupFactory.fromCursor(previousFillupCursor);
+            previousFillupCursor.close();
+            hasPreviousFillup = true;
+        }
+        hasPreviousFillup = false;
+    }
+
+    private void getNextFillup(){
+        Cursor nextFillupCursor = mContext
+                .getContentResolver()
+                .query(DataContract.FillupTable.CONTENT_URI
+                        , null
+                        , DataContract.FillupTable.CAR + " = " + mCar.getId()
+                        + " AND " + DataContract.FillupTable.DATE + " > " + mFillup.getDate()
+                        , null
+                        , " date ASC LIMIT 1");
+        if(nextFillupCursor != null && nextFillupCursor.moveToFirst()){
+            mNextFillup = FillupFactory.fromCursor(nextFillupCursor);
+            nextFillupCursor.close();
+            hasNextFillup = true;
+        }
+        hasNextFillup = false;
     }
 }

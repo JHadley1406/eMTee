@@ -19,5 +19,18 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:nextFocusUp="@id/select_station_nearby_rv"/>
+            <RelativeLayout
+                android:id="@+id/select_station_no_station_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="@string/select_station_no_stations_text"/>
+            </RelativeLayout>
         </LinearLayout>
 </LinearLayout>

@@ -12,4 +12,8 @@ public interface UsedStationView {
     void showUsed(StationAdapter stations);
 
     void returnStation(Intent intent);
+
+    void showRecyclerView();
+
+    void showNoStations();
 }

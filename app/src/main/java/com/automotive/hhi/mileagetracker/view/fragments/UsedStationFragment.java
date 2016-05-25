@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.adapters.StationAdapter;
@@ -29,7 +30,8 @@ public class UsedStationFragment extends Fragment implements UsedStationView {
 
     @Bind(R.id.select_station_used_rv)
     public RecyclerView mUsedStationRV;
-
+    @Bind(R.id.select_station_no_station_container)
+    public RelativeLayout mNoStationContainer;
     private StationFragmentListener mStationFragmentListener;
     private UsedStationPresenter mUsedStationPresenter;
     private Context mContext;
@@ -76,4 +78,17 @@ public class UsedStationFragment extends Fragment implements UsedStationView {
     public void returnStation(Intent returnStationIntent){
        mStationFragmentListener.stationSelected(returnStationIntent);
     }
+
+    @Override
+    public void showRecyclerView() {
+        mUsedStationRV.setVisibility(View.VISIBLE);
+        mNoStationContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNoStations() {
+        mNoStationContainer.setVisibility(View.VISIBLE);
+        mUsedStationRV.setVisibility(View.GONE);
+    }
+
 }

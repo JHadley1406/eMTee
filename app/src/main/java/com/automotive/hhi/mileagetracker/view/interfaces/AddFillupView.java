@@ -12,4 +12,6 @@ public interface AddFillupView extends MvpView{
     void buildFillup();
 
     void launchActivity(Intent intent, int code);
+
+    void popToast(String message);
 }

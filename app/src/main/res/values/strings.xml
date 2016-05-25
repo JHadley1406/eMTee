@@ -93,5 +93,6 @@
     <string name="car_detail_no_fillups_text">There are no records for this car\nPlease click Add Fill-up to begin</string>
 
     <string name="places_key">PLACES_KEY</string>
+    <string name="select_station_no_stations_text">There are no stations here\nAdd some nearby stations to get started</string>
 
 </resources>

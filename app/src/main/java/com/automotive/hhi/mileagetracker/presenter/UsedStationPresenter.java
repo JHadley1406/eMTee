@@ -43,8 +43,14 @@ public class UsedStationPresenter implements Presenter<UsedStationView>
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mStationAdapter.changeCursor(data);
-        mUsedStationView.showUsed(mStationAdapter);
+        if(data.getCount() > 0) {
+            mUsedStationView.showRecyclerView();
+            mStationAdapter.changeCursor(data);
+            mUsedStationView.showUsed(mStationAdapter);
+        } else{
+            mUsedStationView.showNoStations();
+        }
+
     }
 
     @Override
