@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"/>
+        ads:adUnitId="@string/station_list_banner"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/station_list_rv"
         android:layout_width="fill_parent"
