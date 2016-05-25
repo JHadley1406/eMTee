@@ -22,6 +22,7 @@
     <string name="car_detail_delete_car_dialog">Deleting this car will remove all associated fillups\nAre you sure you wish to proceed?</string>
     <string name="car_detail_delete_dialog_delete">Delete</string>
     <string name="car_detail_delete_dialog_cancel">Cancel</string>
+    <string name="car_detail_no_fillups_text">There are no records for this car\nPlease click Add Fill-up to begin</string>
     <string name="activity_car_detail_chart_content_desc">Miles Per Gallon Over Time</string>
 
     <string name="add_car_name_hint">Car Name</string>
@@ -42,6 +43,8 @@
     <string name="add_fillup_add_station_icon_content_desc">Add Station Icon</string>
     <string name="add_fillup_change_date_icon_content_desc">Change Date Icon</string>
     <string name="add_fillup_dollar_sign">$</string>
+    <string name="add_fillup_odo_too_low_warning">"Odometer reading must be greater than "</string>
+    <string name="add_fillup_odo_too_high_warning">"Odometer reading must be less than "</string>
     <string-array name="octane_array">
         <item>Regular</item>
         <item>Mid-Grade</item>
@@ -87,12 +90,13 @@
 
     <string name="about_page_text">eMTee is an easy way to manage fuel economy for all of your cars, trucks, and motorcycles.
         \n\nGas Station data is provided by <a href="http://www.mygasfeed.com">My Gas Feed</a>
-        \n\nGraph Library made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library</string>
+        \n\nMileage Graph made possible by <a href="https://github.com/diogobernardino/WilliamChart">William Chart</a> graph library</string>
 
     <string name="nearby_station_no_connectivity">No GPS or Internet Connection</string>
-    <string name="car_detail_no_fillups_text">There are no records for this car\nPlease click Add Fill-up to begin</string>
+
 
     <string name="places_key">PLACES_KEY</string>
     <string name="select_station_no_stations_text">There are no stations here\nAdd some nearby stations to get started</string>
+
 
 </resources>
