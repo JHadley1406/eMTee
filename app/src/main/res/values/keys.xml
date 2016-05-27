@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="admob_app_id">KEY_GOES_HERE</string>
-    <string name="car_detail_banner">KEY_GOES_HERE</string>
-    <string name="car_list_banner">KEY_GOES_HERE</string>
-    <string name="station_list_banner">KEY_GOES_HERE</string>
-    <string name="google_app_id">KEY_GOES_HERE</string>
-    <string name="mygasfeed_key">KEY_GOES_HERE</string>
+    <string name="admob_app_id">ca-app-pub-2571892647704312~3579859788</string>
+    <string name="car_detail_banner">ca-app-pub-2571892647704312/6533326186</string>
+    <string name="car_list_banner">ca-app-pub-2571892647704312/5056592980</string>
+    <string name="station_list_banner">ca-app-pub-2571892647704312/1806271789</string>
+    <string name="google_app_id">AIzaSyDjqGobI7WR2WYX7Z7-_Y9XKPHWZ9LX1_o</string>
+    <string name="mygasfeed_key">cyt9osu1oq</string>
 </resources>
