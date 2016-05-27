@@ -84,8 +84,16 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         mAdView.loadAd(adRequest);
         mFillupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        preparePresenter();
 
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(mCarDetailPresenter == null){
+            preparePresenter();
+        }
     }
 
     @OnClick(R.id.car_detail_add_fillup)
@@ -119,9 +127,8 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
                 break;
             }
             case KeyContract.CREATE_CAR_CODE:{
-                if(resultCode == RESULT_OK){
-                    mCarDetailPresenter.updateCar((Car)data.getParcelableExtra(KeyContract.CAR));
-                }
+                mCarDetailPresenter.checkForCars();
+                break;
             }
             case KeyContract.CREATE_FILLUP_CODE:{
                 if(resultCode == RESULT_OK){
@@ -235,6 +242,7 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
     @Override
     public void onDestroy(){
         mCarDetailPresenter.detachView();
+        mCarDetailPresenter = null;
         super.onDestroy();
     }
 

@@ -65,7 +65,6 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
     public void onButtonPressed() {
         if(mAddCarPresenter.validateInput(mInputContainer)){
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(KeyContract.CAR, mAddCarPresenter.getCar());
             setResult(RESULT_OK, returnIntent);
             finish();
         }
@@ -151,7 +150,6 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
-        savedInstanceState.putParcelable(KeyContract.CAR, mAddCarPresenter.getCar());
         savedInstanceState.putString(KeyContract.CAR_NAME, mName.getText().toString());
         savedInstanceState.putString(KeyContract.CAR_MAKE, mMake.getText().toString());
         savedInstanceState.putString(KeyContract.CAR_MODEL, mModel.getText().toString());

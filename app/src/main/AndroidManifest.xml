@@ -15,10 +15,13 @@
             android:name=".view.CarListActivity"
             android:label="@string/title_activity_car_list"
             android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android:support.PARENT_ACTIVITY"
+                android:value=".view.CarDetailActivity" />
         </activity>
         <activity
             android:name=".view.CarDetailActivity"
-            android:label="@string/title_activity_car_detail"
+            android:label="@string/app_name"
             android:parentActivityName=".view.CarListActivity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter android:label="@string/app_name">

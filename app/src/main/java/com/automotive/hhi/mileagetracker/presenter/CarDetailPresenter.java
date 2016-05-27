@@ -57,12 +57,18 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
     @Override
     public void attachView(CarDetailView view) {
         mCarDetailView = view;
+        checkForCars();
+        loadCar();
         mLoaderManager.initLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
     }
 
     @Override
     public void detachView() {
         mCarDetailView = null;
+        mLoaderManager.destroyLoader(DETAIL_FILLUPS_LOADER_ID);
+        mLoaderManager = null;
+        mContext = null;
+        mCurrentCar = null;
     }
 
     @Override
@@ -76,8 +82,9 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
                 , null
                 , DataContract.StationTable._ID + " = " + fillup.getStationId()
                 , null, null);
-        if(stationCursor.moveToFirst()) {
+        if(stationCursor != null && stationCursor.moveToFirst()) {
             editFillupIntent.putExtra(KeyContract.STATION, StationFactory.fromCursor(stationCursor));
+            stationCursor.close();
         } else{
             editFillupIntent.putExtra(KeyContract.STATION, new Station());
         }
@@ -186,11 +193,15 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
             if(carList.getCount() == 1){
                 updateCar(CarFactory.fromCursor(carList));
                 initChart(mCarDetailView.getChart());
+                carList.close();
             } else {
+                carList.close();
                 mCarDetailView.launchCarList();
             }
         } else{
-            mCarDetailView.launchActivity(new Intent(mContext, AddCarActivity.class), KeyContract.CREATE_CAR_CODE);
+            Intent addCarIntent = new Intent(mContext, AddCarActivity.class);
+            addCarIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            mCarDetailView.launchActivity(addCarIntent, KeyContract.CREATE_CAR_CODE);
         }
     }
 }
