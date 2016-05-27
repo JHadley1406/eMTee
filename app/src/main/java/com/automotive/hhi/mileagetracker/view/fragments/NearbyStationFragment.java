@@ -89,8 +89,10 @@ public class NearbyStationFragment extends Fragment implements NearbyStationView
     @Override
     public void onStart(){
         super.onStart();
-        mNearbyStationPresenter = new NearbyStationPresenter(getContext());
-        mNearbyStationPresenter.attachView(this);
+        if(mNearbyStationPresenter == null) {
+            mNearbyStationPresenter = new NearbyStationPresenter(getContext());
+            mNearbyStationPresenter.attachView(this);
+        }
         checkPermission();
     }
 
