@@ -12,4 +12,6 @@ public interface AddCarView extends MvpView {
     void buildCar();
 
     void selectImage(Intent intent);
+
+    void popToast(String message);
 }

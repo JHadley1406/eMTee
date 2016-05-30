@@ -71,11 +71,12 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Car car;
+        Car car = new Car();
         if(getIntent().hasExtra(KeyContract.CAR)){
             car = getIntent().getParcelableExtra(KeyContract.CAR);
         } else{
-            car = new Car();
+            setResult(RESULT_CANCELED, mAddFillupPresenter.getReturnIntent());
+            finish();
         }
         Station station;
         if(getIntent().hasExtra(KeyContract.STATION)){
@@ -155,7 +156,14 @@ public class AddFillupActivity extends AppCompatActivity implements AddFillupVie
             mMileage.setError(getString(R.string.number_field_error));
             mAddFillup.setClickable(false);
         } else{
-            mAddFillup.setClickable(true);
+            String userInput = ""+s.toString().replaceAll("[^\\d]", "");
+            if(userInput.length() > 0) {
+                Float mileage = Float.parseFloat(userInput);
+                if (mileage < 1) {
+                    mMileage.setError(getString(R.string.add_fillup_too_low_error));
+                }
+                mAddFillup.setClickable(true);
+            }
         }
     }
 

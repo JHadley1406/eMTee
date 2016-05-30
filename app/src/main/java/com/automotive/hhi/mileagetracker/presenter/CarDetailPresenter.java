@@ -51,15 +51,13 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         mLoaderManager = loaderManager;
         mFillupAdapter = new FillupAdapter(mContext, null, this);
         mCurrentCar = new Car();
+        mCurrentCar.setId(-1);
     }
 
 
     @Override
     public void attachView(CarDetailView view) {
         mCarDetailView = view;
-        checkForCars();
-        loadCar();
-        mLoaderManager.initLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
     }
 
     @Override
@@ -114,7 +112,7 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mLoaderManager.restartLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
+        mFillupAdapter.swapCursor(null);
     }
 
     private ArrayList<Fillup> getFillups(){
@@ -142,9 +140,9 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         mFuelChart.update(getFillups());
     }
 
-    public void launchEditCar(){
+    public void launchEditCar(Context context){
 
-        Intent editCarIntent = new Intent(mCarDetailView.getContext(), AddCarActivity.class);
+        Intent editCarIntent = new Intent(context, AddCarActivity.class);
         editCarIntent.putExtra(KeyContract.CAR, mCurrentCar);
         editCarIntent.putExtra(KeyContract.IS_EDIT, true);
         mCarDetailView.launchActivity(editCarIntent, KeyContract.EDIT_CAR_CODE);
@@ -152,12 +150,13 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
 
     public void loadCar(){
         mCarDetailView.showCar(mCurrentCar);
-        onLoaderReset(null);
     }
 
     public void updateCar(Car car){
         mCurrentCar = car;
+        mLoaderManager.restartLoader(DETAIL_FILLUPS_LOADER_ID, null, this);
         loadCar();
+        initChart(mCarDetailView.getChart());
     }
 
     public void deleteCar(){
@@ -173,11 +172,9 @@ public class CarDetailPresenter implements Presenter<CarDetailView>
         checkForCars();
     }
 
-    public void launchAddFillup(){
-        Intent addFillupIntent = new Intent(mCarDetailView.getContext(), AddFillupActivity.class);
+    public void launchAddFillup(Context context){
+        Intent addFillupIntent = new Intent(context, AddFillupActivity.class);
         addFillupIntent.putExtra(KeyContract.CAR, mCurrentCar);
-        addFillupIntent.putExtra(KeyContract.FILLUP, new Fillup());
-        addFillupIntent.putExtra(KeyContract.STATION, new Station());
         addFillupIntent.putExtra(KeyContract.IS_EDIT, false);
         mCarDetailView.launchActivity(addFillupIntent, KeyContract.CREATE_FILLUP_CODE);
     }

@@ -64,12 +64,11 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     @Override
     public void onResume(){
         super.onResume();
-        //mCarListPresenter.restartLoader();
-        mCarListPresenter.onLoaderReset(null);
     }
     @Override
     protected void onDestroy(){
         mCarListPresenter.detachView();
+        mCarListPresenter = null;
         super.onDestroy();
     }
 
@@ -111,7 +110,6 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
     @Override
     public void addCar(){
         Intent addCarIntent = new Intent(getContext(), AddCarActivity.class);
-        addCarIntent.putExtra(KeyContract.CAR, new Car());
         addCarIntent.putExtra(KeyContract.IS_EDIT, false);
         startActivityForResult(addCarIntent, KeyContract.CREATE_CAR_CODE);
     }
@@ -126,7 +124,7 @@ public class CarListActivity extends AppCompatActivity implements CarListView {
         switch (requestCode){
             case KeyContract.CREATE_CAR_CODE:{
                 if(resultCode == RESULT_OK){
-                    mCarListPresenter.onLoaderReset(null);
+                    mCarListPresenter.restartLoader();
                 }
             }
         }

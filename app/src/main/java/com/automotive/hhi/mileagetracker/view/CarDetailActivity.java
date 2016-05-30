@@ -32,6 +32,8 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.squareup.picasso.Picasso;
 
+import java.security.Key;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -83,28 +85,25 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         mFillupRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onStart(){
+        super.onStart();
         if(mCarDetailPresenter == null){
             preparePresenter();
         }
+        prepareView();
     }
 
     @OnClick(R.id.car_detail_add_fillup)
-    public void onClick(){
-        mCarDetailPresenter.launchAddFillup();
-
+    public void addFillup(){
+        mCarDetailPresenter.launchAddFillup(getContext());
     }
 
     @OnClick(R.id.car_detail_edit_car)
     public void editCar(){
-        mCarDetailPresenter.launchEditCar();
+        mCarDetailPresenter.launchEditCar(getContext());
     }
 
     @OnClick(R.id.car_detail_delete_car)
@@ -142,6 +141,9 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
                     mCarDetailPresenter.updateCar((Car) data.getParcelableExtra(KeyContract.CAR));
                     mCarDetailPresenter.notifyChartDataChanged();
                 }
+                break;
+            }
+            default:{
             }
 
         }
@@ -225,13 +227,19 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
         mCarDetailPresenter = new CarDetailPresenter(getApplicationContext()
                 , getLoaderManager());
         mCarDetailPresenter.attachView(this);
+    }
+
+    private void prepareView(){
         if(getIntent().hasExtra(KeyContract.CAR)){
+            Log.i(LOG_TAG, "Found a car");
             mCarDetailPresenter.updateCar((Car)getIntent().getParcelableExtra(KeyContract.CAR));
-        } else {
+        } else if(mCarDetailPresenter.mCurrentCar == null
+                || mCarDetailPresenter.mCurrentCar.getId() == -1) {
+            Log.i(LOG_TAG, "No car found, checking db");
             mCarDetailPresenter.checkForCars();
+        } else{
+
         }
-        mCarDetailPresenter.loadCar();
-        mCarDetailPresenter.initChart(getChart());
     }
 
     @Override
@@ -258,6 +266,9 @@ public class CarDetailActivity extends AppCompatActivity implements CarDetailVie
                 .setPositiveButton(R.string.car_detail_delete_dialog_delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        if(getIntent().hasExtra(KeyContract.CAR)){
+                            getIntent().removeExtra(KeyContract.CAR);
+                        }
                         mCarDetailPresenter.deleteCar();
                     }
                 })

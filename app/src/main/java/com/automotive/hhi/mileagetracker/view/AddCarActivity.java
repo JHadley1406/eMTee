@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;
@@ -64,8 +65,7 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
     @OnClick(R.id.add_car_submit)
     public void onButtonPressed() {
         if(mAddCarPresenter.validateInput(mInputContainer)){
-            Intent returnIntent = new Intent();
-            setResult(RESULT_OK, returnIntent);
+            setResult(RESULT_OK, mAddCarPresenter.getReturnIntent());
             finish();
         }
     }
@@ -162,6 +162,11 @@ public class AddCarActivity extends AppCompatActivity implements AddCarView {
         mMake.setText(savedInstanceState.getString(KeyContract.CAR_MAKE));
         mModel.setText(savedInstanceState.getString(KeyContract.CAR_MODEL));
         mYear.setText(savedInstanceState.getString(KeyContract.CAR_YEAR));
+    }
+
+    @Override
+    public void popToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
     }
 
 }

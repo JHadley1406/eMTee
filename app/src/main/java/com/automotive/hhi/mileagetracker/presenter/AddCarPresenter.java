@@ -2,6 +2,7 @@ package com.automotive.hhi.mileagetracker.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.automotive.hhi.mileagetracker.KeyContract;
 import com.automotive.hhi.mileagetracker.R;
 import com.automotive.hhi.mileagetracker.model.data.Car;
 import com.automotive.hhi.mileagetracker.model.data.CarFactory;
@@ -74,8 +76,7 @@ public class AddCarPresenter implements Presenter<AddCarView> {
         Picasso.with(mContext).load(imageUri).into(target);
     }
 
-    public void insertCar(){
-        mAddCarView.buildCar();
+    private void insertCar(){
         if(mIsEdit){
             mContext.getContentResolver().update(DataContract.CarTable.CONTENT_URI
                     , CarFactory.toContentValues(mCar)
@@ -101,10 +102,37 @@ public class AddCarPresenter implements Presenter<AddCarView> {
                 }
             }
         }
+        mAddCarView.buildCar();
+        if(!uniqueCarName()){
+            return false;
+        }
         insertCar();
         return true;
     }
 
+    private boolean uniqueCarName(){
+        Cursor matchingCars = mContext
+                .getContentResolver()
+                .query(DataContract.CarTable.CONTENT_URI
+                        , null
+                        , DataContract.CarTable.NAME + " = '" + mCar.getName() + "' AND "
+                            + DataContract.CarTable._ID + " != " + mCar.getId()
+                        , null, null);
+        if(matchingCars != null && matchingCars.moveToFirst()){
+            matchingCars.close();
+            mAddCarView.popToast("There is already a car with that name");
+            return false;
+        }
+        return true;
+    }
+
+    public Intent getReturnIntent(){
+        Intent returnIntent = new Intent();
+        if(getIsEdit()){
+            returnIntent.putExtra(KeyContract.CAR, getCar());
+        }
+        return returnIntent;
+    }
 
     private Target target = new Target(){
 
