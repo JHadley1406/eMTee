@@ -48,6 +48,10 @@ public class CarListPresenter implements Presenter<CarListView>, ViewHolderOnCli
     @Override
     public void detachView() {
         mCarListView = null;
+        mLoaderManager.destroyLoader(LOADER_ID);
+        mLoaderManager = null;
+        mCarListAdapter = null;
+        mContext = null;
     }
 
     @Override
@@ -73,13 +77,12 @@ public class CarListPresenter implements Presenter<CarListView>, ViewHolderOnCli
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mLoaderManager.restartLoader(LOADER_ID, null, this);
-        //restartLoader();
+        mCarListAdapter.changeCursor(null);
     }
 
-    //public void restartLoader(){
-    //    mLoaderManager.restartLoader(LOADER_ID, null, this);
-   // }
+    public void restartLoader(){
+        mLoaderManager.restartLoader(LOADER_ID, null, this);
+    }
 
     private void addCar(){
         mCarListView.addCar();

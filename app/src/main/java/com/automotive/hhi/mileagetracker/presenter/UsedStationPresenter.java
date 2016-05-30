@@ -55,7 +55,7 @@ public class UsedStationPresenter implements Presenter<UsedStationView>
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mLoaderManager.restartLoader(KeyContract.USED_STATION_LOADER_ID, null, this);
+        mStationAdapter.swapCursor(null);
     }
 
     @Override
@@ -67,6 +67,9 @@ public class UsedStationPresenter implements Presenter<UsedStationView>
     @Override
     public void detachView() {
         mUsedStationView = null;
+        mLoaderManager.destroyLoader(KeyContract.USED_STATION_LOADER_ID);
+        mLoaderManager = null;
+        mStationAdapter = null;
         mContext = null;
     }
 

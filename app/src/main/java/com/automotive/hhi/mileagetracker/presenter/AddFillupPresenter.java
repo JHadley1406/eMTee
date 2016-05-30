@@ -108,6 +108,7 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
 
     public Intent getReturnIntent(){
         Intent returnIntent = new Intent();
+        Log.i(LOG_TAG, "Adding car to intent");
         returnIntent.putExtra(KeyContract.CAR, mCar);
         return returnIntent;
     }
@@ -174,6 +175,12 @@ public class AddFillupPresenter implements Presenter<AddFillupView> {
                 && mFillup.getId() != mPrevFillup.getId()){
             mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_low_warning)
                     + mPrevFillup.getFillupMileage());
+            return false;
+        }
+        if(hasPreviousFillup
+                && mFillup.getFillupMileage() - mPrevFillup.getFillupMileage() > 10000
+                && mFillup.getId() != mPrevFillup.getId()){
+            mAddFillupView.popToast(mContext.getString(R.string.add_fillup_odo_too_different));
             return false;
         }
         if (hasNextFillup

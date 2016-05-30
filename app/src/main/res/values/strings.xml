@@ -97,6 +97,9 @@
     <string name="places_key">PLACES_KEY</string>
     <string name="select_station_no_stations_text">There are no stations here\nAdd some nearby stations to get started</string>
     <string name="car_detail_graph_sample_text">Sample Data\nAdd 3 Fill-ups to show live data</string>
+    <string name="add_fillup_too_low_error">Too Low</string>
+    <string name="add_fillup_too_high_error">Too High</string>
+    <string name="add_fillup_odo_too_different">Check your odometer reading\nIt may be too high</string>
 
 
 </resources>
